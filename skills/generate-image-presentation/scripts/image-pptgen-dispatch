@@ -1,0 +1,206 @@
+#!/usr/bin/env sh
+# Resolve Image PPTGen from the supported per-user install roots.  This helper
+# intentionally never falls back to PATH: Codex Desktop may be launched before
+# shell profile changes are available to its process environment.
+set -eu
+
+fail() {
+  printf '%s\n' "$1" >&2
+  exit 3
+}
+
+protocol_error() {
+  printf '%s\n' "{\"error\":\"platform_error\",\"message\":\"$1\"}" >&2
+  exit 4
+}
+
+resolve_linux_cli() {
+  if [ -n "${IMAGE_PPTGEN_CLI:-}" ]; then
+    cli=$IMAGE_PPTGEN_CLI
+    case "$cli" in
+      /*) ;;
+      *) fail '{"error":"platform_unavailable","message":"IMAGE_PPTGEN_CLI must be an absolute executable path."}' ;;
+    esac
+    [ -f "$cli" ] && [ -x "$cli" ] || fail '{"error":"platform_unavailable","message":"Image PPTGen CLI is unavailable; install it or set IMAGE_PPTGEN_CLI to an absolute executable path."}'
+    return
+  fi
+  [ -n "${HOME:-}" ] || fail '{"error":"platform_unavailable","message":"Image PPTGen CLI is unavailable; install it or set IMAGE_PPTGEN_CLI to an absolute executable path."}'
+  primary="$HOME/.local/bin/image-pptgen"
+  compatible="$HOME/.codex/bin/image-pptgen"
+  if [ -f "$primary" ] && [ -x "$primary" ]; then
+    cli=$primary
+    return
+  fi
+  if [ -f "$compatible" ] && [ -x "$compatible" ]; then
+    cli=$compatible
+    return
+  fi
+  fail '{"error":"platform_unavailable","message":"Image PPTGen CLI is unavailable; install it or set IMAGE_PPTGEN_CLI to an absolute executable path."}'
+}
+
+resolve_linux_json_python() {
+  cli_dir=$(dirname "$cli")
+  if [ -x "$cli_dir/python3" ]; then
+    printf '%s\n' "$cli_dir/python3"
+    return 0
+  fi
+  if [ -x "$cli_dir/python" ]; then
+    printf '%s\n' "$cli_dir/python"
+    return 0
+  fi
+  if [ -n "${HOME:-}" ]; then
+    data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
+    if [ -x "$data_home/image-pptgen/current-venv/bin/python" ]; then
+      printf '%s\n' "$data_home/image-pptgen/current-venv/bin/python"
+      return 0
+    fi
+    if [ -x "$HOME/.local/share/image-pptgen/current-venv/bin/python" ]; then
+      printf '%s\n' "$HOME/.local/share/image-pptgen/current-venv/bin/python"
+      return 0
+    fi
+    if [ -x "$HOME/.codex/image-pptgen/current-venv/bin/python" ]; then
+      printf '%s\n' "$HOME/.codex/image-pptgen/current-venv/bin/python"
+      return 0
+    fi
+  fi
+  if [ -x /usr/bin/python3 ]; then
+    printf '%s\n' /usr/bin/python3
+    return 0
+  fi
+  return 1
+}
+
+run_linux_generate_and_follow() {
+  deck_id=""
+  saw_deck_id=0
+  saw_jsonl=0
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --deck-id)
+        [ "$#" -ge 2 ] || protocol_error "generate-and-follow requires --deck-id"
+        [ "$saw_deck_id" -eq 0 ] || protocol_error "generate-and-follow accepts --deck-id exactly once"
+        deck_id="$2"
+        saw_deck_id=1
+        shift 2
+        ;;
+      --jsonl)
+        [ "$saw_jsonl" -eq 0 ] || protocol_error "generate-and-follow accepts --jsonl at most once"
+        saw_jsonl=1
+        shift
+        ;;
+      *) protocol_error "generate-and-follow received an unsupported argument" ;;
+    esac
+  done
+  case "$deck_id" in
+    ''|*[!0-9]*) protocol_error "generate-and-follow requires a positive integer deck id" ;;
+  esac
+  [ "$deck_id" -gt 0 ] || protocol_error "generate-and-follow requires a positive integer deck id"
+  [ "$saw_jsonl" -eq 1 ] || protocol_error "generate-and-follow requires --jsonl exactly once"
+
+  resolve_linux_cli
+  json_python=$(resolve_linux_json_python) || fail '{"error":"platform_unavailable","message":"Image PPTGen JSON parser is unavailable."}'
+
+  generation_output=$(mktemp "${TMPDIR:-/tmp}/image-pptgen-generate.XXXXXX") || fail '{"error":"platform_unavailable","message":"Image PPTGen JSON parser is unavailable."}'
+  trap 'rm -f "$generation_output"' EXIT
+  generation_status=0
+  "$cli" generate --deck-id "$deck_id" --json >"$generation_output" || generation_status=$?
+  if [ "$generation_status" -ne 0 ]; then
+    cat "$generation_output" >&2 || true
+    exit "$generation_status"
+  fi
+
+  if ! run_id="$("$json_python" - "$generation_output" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+lines = Path(sys.argv[1]).read_text(encoding="utf-8").splitlines()
+if len(lines) != 1 or not lines[0].strip():
+    raise SystemExit("generation response must contain exactly one JSON line")
+try:
+    payload = json.loads(lines[0])
+except json.JSONDecodeError as exc:
+    raise SystemExit(f"generation response is not valid JSON: {exc}")
+run_ids = payload.get("run_ids") if isinstance(payload, dict) else None
+if not isinstance(run_ids, list) or len(run_ids) != 1:
+    raise SystemExit("generation response must contain exactly one run_ids item")
+run_id = run_ids[0]
+if isinstance(run_id, bool) or not isinstance(run_id, int) or run_id <= 0:
+    raise SystemExit("generation response run_ids[0] must be a positive integer")
+print(run_id)
+PY
+)"; then
+    protocol_error "generation response did not bind exactly one positive run id"
+  fi
+  case "$run_id" in
+    ''|*[!0-9]*) protocol_error "generation response run id is invalid" ;;
+  esac
+  [ "$run_id" -gt 0 ] || protocol_error "generation response run id is invalid"
+
+  IFS= read -r generation_line < "$generation_output"
+  printf '%s\n' "$generation_line"
+  rm -f "$generation_output"
+  trap - EXIT
+  exec "$cli" status --run-id "$run_id" --follow --jsonl
+}
+
+# Linux dispatcher-only composition must intercept generate-and-follow before
+# any raw public CLI exec, including IMAGE_PPTGEN_CLI.  The public CLI does
+# not expose this verb.  macOS keeps the held-command helper and is not
+# composed here.
+if [ "${1:-}" = "generate-and-follow" ]; then
+  case "$(/usr/bin/uname -s 2>/dev/null || true)" in
+    Linux)
+      shift
+      run_linux_generate_and_follow "$@"
+      protocol_error "generate-and-follow composition returned unexpectedly"
+      ;;
+  esac
+fi
+
+if [ -n "${IMAGE_PPTGEN_CLI:-}" ]; then
+  cli=$IMAGE_PPTGEN_CLI
+  case "$cli" in
+    /*) ;;
+    *) fail '{"error":"platform_unavailable","message":"IMAGE_PPTGEN_CLI must be an absolute executable path."}' ;;
+  esac
+  [ -f "$cli" ] && [ -x "$cli" ] || fail '{"error":"platform_unavailable","message":"Image PPTGen CLI is unavailable; install it or set IMAGE_PPTGEN_CLI to an absolute executable path."}'
+  exec "$cli" "$@"
+fi
+
+[ -n "${HOME:-}" ] || fail '{"error":"platform_unavailable","message":"Image PPTGen CLI is unavailable; install it or set IMAGE_PPTGEN_CLI to an absolute executable path."}'
+
+case "$(/usr/bin/uname -s 2>/dev/null || true)" in
+  Darwin)
+    primary="$HOME/.codex/bin/image-pptgen"
+    compatible="$HOME/.local/bin/image-pptgen"
+    install_root="${IMAGE_PPTGEN_INSTALL_ROOT:-$HOME/.codex/image-pptgen}"
+    held_command="$install_root/current/macos/image-pptgen-held-command.sh"
+
+    # Codex Desktop tasks are sandboxed and cannot reliably register a user
+    # launchd job.  Keep every Skill-managed command under the current shell
+    # parent instead.  The raw `generate` command remains on the public wrapper
+    # path because generation must be paired with follow by the Skill's
+    # generate-and-follow composition.
+    case "${1:-}" in
+      doctor|material|split|status|result|generate-and-follow)
+        [ -f "$held_command" ] && [ -x "$held_command" ] || fail '{"error":"platform_unavailable","message":"Image PPTGen macOS held command helper is unavailable."}'
+        exec "$held_command" "$@"
+        ;;
+    esac
+    ;;
+  Linux)
+    primary="$HOME/.local/bin/image-pptgen"
+    compatible="$HOME/.codex/bin/image-pptgen"
+    ;;
+  *) fail '{"error":"platform_unavailable","message":"Image PPTGen dispatcher supports only macOS and Linux."}' ;;
+esac
+
+if [ -f "$primary" ] && [ -x "$primary" ]; then
+  exec "$primary" "$@"
+fi
+if [ -f "$compatible" ] && [ -x "$compatible" ]; then
+  exec "$compatible" "$@"
+fi
+
+fail '{"error":"platform_unavailable","message":"Image PPTGen CLI is unavailable; install it or set IMAGE_PPTGEN_CLI to an absolute executable path."}'

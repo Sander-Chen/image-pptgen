@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pptgen-toolkit"
+version = "0.1.0"
+description = "Thin CLI control plane for PPTGen Platform"
+requires-python = ">=3.11"
+
+[project.scripts]
+pptgen = "pptgen_toolkit.cli:main"
+image-pptgen = "pptgen_toolkit.image_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

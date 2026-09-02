@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "platform": "windows-amd64",
+  "bootstrap": "install.py",
+  "preferred_bootstrap": "install.py",
+  "legacy_bootstrap": "install.ps1",
+  "bootstrap_python_argument": "--bootstrap-python",
+  "bootstrap_python_must_equal_sys_executable": true,
+  "bootstrap_python_implementation": "CPython",
+  "bootstrap_python_version": "3.12",
+  "bootstrap_python_must_be_absolute_regular_non_reparse": true,
+  "bootstrap_versioned": true,
+  "controller": "windows_installer.py",
+  "payload": {
+    "format": "zip",
+    "root_template": "image-pptgen-{version}",
+    "required_identity": [
+      "size",
+      "sha256",
+      "version"
+    ],
+    "required_members": [
+      "app/runtime_manager.py",
+      "app/image-launcher.py",
+      "app/release-identity.json",
+      "app/skills/generate-image-presentation/SKILL.md",
+      "app/packages/pptgen_toolkit/dist/image_pptgen_toolkit-0.1.0-py3-none-any.whl",
+      "windows/requirements.lock",
+      "windows/fallback-lock.json",
+      "licenses/windows-amd64-licenses.zip",
+      "wheelhouse/*.whl"
+    ]
+  },
+  "runtime_selection": {
+    "order": [
+      "official",
+      "fallback"
+    ],
+    "official_argument": "OfficialPython",
+    "fallback_argument": "FallbackPythonRoot",
+    "fallback_authorization_argument": "FallbackAuthorizationFile",
+    "fallback_authorization": {
+      "schema_version": 1,
+      "freeze_id": "pbs-20260718-cp311-plus-cp312-v4",
+      "platform": "windows-amd64",
+      "decision": "fallback_authorized",
+      "official_attempt_count": 2,
+      "approaches_must_differ": true,
+      "results_must_be": "failed",
+      "runtime_receipt_fields": [
+        "archive_sha256",
+        "archive_bytes",
+        "extracted_root",
+        "python_path"
+      ]
+    },
+    "frozen_inputs": {
+      "runtime_archive": "cpython-3.11.15+20260718-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+      "runtime_archive_sha256": "a48c2dbe832319f61aa8557c9900caec70f7fed0cbee391a4c9ff9f98b50222d",
+      "runtime_archive_bytes": 25678291,
+      "runtime_archive_member_root": "python",
+      "runtime_extracted_python": "python.exe",
+      "wheelhouse_bundle": "windows-amd64-wheelhouse.zip",
+      "wheelhouse_bundle_sha256": "87944216f61ee713532e297434666b79955cdced8f4e9573775f019ab987aaac",
+      "wheelhouse_bundle_bytes": 15607217,
+      "wheelhouse_native_cpython_tags": ["cp311", "cp312"],
+      "wheelhouse_install_path": "wheelhouse",
+      "license_bundle": "windows-amd64-licenses.zip",
+      "license_bundle_sha256": "6ac662ed717f2f158020b8f6d3bb89ea844aca98d2abf1f76583bb540bd275cd",
+      "license_bundle_bytes": 411633
+    },
+    "minimum_python": "3.11",
+    "network_discovery": false,
+    "user_choice": false
+  },
+  "install": {
+    "default_root": "%LOCALAPPDATA%\\ImagePPTGen",
+    "default_skill_root": "%USERPROFILE%\\.agents\\skills",
+    "requires_administrator": false,
+    "path_scope": "user",
+    "desktop_restart_required": true,
+    "state": "state/windows-install-state.json",
+    "release_directory": "releases/{install_id}",
+    "venv_directory": "venvs/{install_id}",
+    "python": "venvs/{install_id}/Scripts/python.exe",
+    "runtime_manager": "releases/{install_id}/app/runtime_manager.py"
+  },
+  "lifecycle": [
+    "install",
+    "doctor",
+    "stop",
+    "rollback"
+  ],
+  "commands": {
+    "cli": "bin/image-pptgen.cmd",
+    "server": "bin/image-pptgen-server.cmd",
+    "manage": "bin/image-pptgen-manage.cmd"
+  }
+}
