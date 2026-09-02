@@ -1,0 +1,145 @@
+.codex-sessions-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.codex-sessions-page > .ant-card {
+  min-width: 0;
+}
+
+.codex-sessions-toolbar h2,
+.codex-sessions-result-heading h3 {
+  margin: 0;
+}
+
+.codex-sessions-load-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 12px;
+}
+
+.codex-sessions-load-row .ant-form-item {
+  margin-bottom: 0;
+}
+
+.codex-session-primary.ant-btn {
+  min-height: 44px;
+  padding-inline: 22px;
+}
+
+.codex-sessions-alert,
+.codex-sessions-conclusion {
+  margin: 0;
+}
+
+.codex-sessions-result-card .ant-card-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.codex-sessions-result-heading,
+.codex-sessions-paging,
+.codex-sessions-raw-action,
+.codex-sessions-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.codex-sessions-live {
+  min-height: 22px;
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.codex-sessions-loading {
+  display: flex;
+  min-height: 128px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.codex-sessions-metadata .ant-descriptions-item-content,
+.codex-sessions-wrap,
+.codex-sessions-raw-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.codex-sessions-levels {
+  width: fit-content;
+  max-width: 100%;
+}
+
+.codex-sessions-list .ant-list-item {
+  align-items: stretch;
+}
+
+.codex-sessions-item {
+  width: 100%;
+  align-items: flex-start;
+}
+
+.codex-sessions-item-meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.codex-sessions-item .ant-typography {
+  margin: 8px 0 0;
+}
+
+.codex-sessions-paging {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 12px;
+}
+
+.codex-sessions-raw-action {
+  align-items: flex-start;
+}
+
+.codex-sessions-page .ant-btn:focus-visible,
+.codex-sessions-page .ant-segmented-item:focus-visible,
+.codex-sessions-page .ant-input:focus-visible {
+  outline: 3px solid rgba(22, 119, 255, 0.38);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .codex-sessions-load-row,
+  .codex-sessions-result-heading,
+  .codex-sessions-paging,
+  .codex-sessions-raw-action,
+  .codex-sessions-item {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .codex-sessions-levels {
+    display: flex;
+    width: 100%;
+  }
+
+  .codex-sessions-levels .ant-segmented-group {
+    display: flex;
+    width: 100%;
+  }
+
+  .codex-sessions-levels .ant-segmented-item {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .codex-sessions-paging .ant-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+}

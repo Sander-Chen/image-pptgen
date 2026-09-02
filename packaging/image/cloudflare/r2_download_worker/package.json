@@ -1,0 +1,15 @@
+{
+  "name": "public-image-r2-download-worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check:types": "wrangler types worker-configuration.d.ts --include-runtime=false --check && tsc --noEmit",
+    "check:bundle": "wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260817.1",
+    "typescript": "^5.9.2",
+    "wrangler": "4.123.0"
+  }
+}

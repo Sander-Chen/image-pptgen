@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "platform": "macos-arm64",
+  "controller": "installer.py",
+  "payload": {
+    "format": "tar.gz",
+    "required_members": [
+      "app/runtime_manager.py",
+      "app/image-launcher.py",
+      "app/skills/generate-image-presentation/SKILL.md",
+      "app/packages/pptgen_toolkit/pyproject.toml",
+      "app/packages/pptgen_toolkit/dist/image_pptgen_toolkit-0.1.0-py3-none-any.whl",
+      "macos/requirements.lock"
+    ]
+  },
+  "runtime_selection": {
+    "order": ["official", "fallback"],
+    "official_argument": "--official-python",
+    "official_approaches": ["venv-ensurepip", "venv-host-pip"],
+    "fallback_argument": "--fallback-python-dir",
+    "fallback_freeze_argument": "--fallback-freeze-id",
+    "fallback_authorization_argument": "--fallback-authorization-receipt",
+    "license_directory_argument": "--license-dir",
+    "fallback_authorization": {
+      "schema_version": 1,
+      "freeze_id": "pbs-20260718-cp311-plus-cp312-v4",
+      "platform": "macos-arm64",
+      "decision": "fallback_authorized",
+      "official_attempt_count": 2,
+      "approaches_must_differ": true,
+      "results_must_be": "failed",
+      "runtime_receipt_fields": [
+        "archive_sha256",
+        "archive_bytes",
+        "extracted_root",
+        "python_path"
+      ]
+    },
+    "frozen_inputs": {
+      "runtime_archive": "cpython-3.11.15+20260718-aarch64-apple-darwin-install_only_stripped.tar.gz",
+      "runtime_archive_sha256": "b21dbc3f3e01932fcc3f0f4c51e5a7ef61888cb454d23eee6e8207c6f52d0b04",
+      "runtime_archive_bytes": 27115492,
+      "runtime_extracted_python": "python/install/bin/python3.11",
+      "wheelhouse_bundle": "macos-arm64-wheelhouse.zip",
+      "wheelhouse_bundle_sha256": "33cbc3862888672dacc6a685b7abd9d7982d5b6e1296407742558cbd6211629b",
+      "wheelhouse_bundle_bytes": 11127217,
+      "wheelhouse_install_argument": "--wheelhouse",
+      "wheelhouse_install_form": "verified-extracted-directory",
+      "license_bundle": "macos-arm64-licenses.zip",
+      "license_bundle_sha256": "dc8d72172df494d125b9a03825940c4e6dbd0002ee24ea162fcac1d35a73b1a3",
+      "license_bundle_bytes": 424146,
+      "license_install_form": "verified-extracted-directory"
+    },
+    "network_discovery": false,
+    "user_choice": false
+  },
+  "install": {
+    "default_root": "~/.codex/image-pptgen",
+    "default_bin_root": "~/.codex/bin",
+    "default_skill_root": "~/.codex/skills",
+    "requires_administrator": false,
+    "active_marker": "active.json",
+    "release_directory": "releases/{install_id}",
+    "venv_directory": "venvs/{install_id}",
+    "python": "venvs/{install_id}/bin/python",
+    "runtime_manager": "releases/{install_id}/app/runtime_manager.py",
+    "requirements_lock": "macos/requirements.lock"
+  },
+  "lifecycle": ["install", "doctor", "stop", "rollback"],
+  "service": {
+    "launcher": "user-launchd",
+    "domain": "gui/{uid}",
+    "label": "com.openai.codex.image-pptgen",
+    "plist": "state/runtime-manager/com.openai.codex.image-pptgen.plist",
+    "keep_alive": false,
+    "stdout_stderr": "state/runtime-manager/service.log",
+    "auth_preservation": "reuse-existing-CODEX_HOME-without-auth-copy",
+    "permissions": "current-user-only-no-administrator"
+  }
+}

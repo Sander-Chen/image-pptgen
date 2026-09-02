@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "freeze_id": "pbs-20260718-cp311-plus-cp312-v4",
+  "frozen_at": "2026-08-18T23:20:14+08:00",
+  "policy": {
+    "official_runtime_first": true,
+    "official_probe_max_attempts_per_platform": 2,
+    "fallback_activation": "after_two_approach_different_official_runtime_failures",
+    "fallback_user_choice": false,
+    "network_during_install": false,
+    "target_first_download_bytes": 62914560,
+    "hard_first_download_bytes": 104857600
+  },
+  "release": {
+    "provider": "Astral python-build-standalone",
+    "tag": "20260718",
+    "commit": "0e4d9c24b72d28573e622518f09b16aef4a33be8",
+    "immutable": true,
+    "python_version": "3.11.15",
+    "python_tag": "cp311",
+    "abi": "cp311",
+    "release_url": "https://github.com/astral-sh/python-build-standalone/releases/tag/20260718"
+  },
+  "application_payload_reference": {
+    "version": "0.0.0-runtime-core-freeze",
+    "bytes": 7298008,
+    "sha256": "ad526e6f34b8d990c39086aeb0d5944b504469ba32955861e6c3cce6cb33c4ec",
+    "role": "size-budget-reference-only"
+  },
+  "supplemental_licenses": [
+    {
+      "component": "flask-cors",
+      "version": "6.0.2",
+      "license": "MIT",
+      "source_kind": "upstream_git_tag",
+      "source_commit": "fa55dcbec68b3524a39e5057c35c29c221a27d64",
+      "source_url": "https://raw.githubusercontent.com/corydolphin/flask-cors/fa55dcbec68b3524a39e5057c35c29c221a27d64/LICENSE",
+      "repository_path": "licenses/flask-cors-6.0.2-LICENSE.txt",
+      "bytes": 1056,
+      "sha256": "134a20d852c0cf9e0f3c228767921b76f4bfc4af4a2fc7c4cc90f6b4fd407b5c",
+      "reason": "wheel and sdist declare MIT but contain no license text"
+    }
+  ],
+  "wheel_sources": [
+    {"name": "blinker", "version": "1.9.0", "license": "MIT", "direct": false, "license_source": "wheel"},
+    {"name": "certifi", "version": "2026.7.22", "license": "MPL-2.0", "direct": false, "license_source": "wheel"},
+    {"name": "charset-normalizer", "version": "3.5.1", "license": "MIT", "direct": false, "license_source": "wheel"},
+    {"name": "click", "version": "8.4.2", "license": "BSD-3-Clause", "direct": false, "license_source": "wheel", "source_metadata": "https://pypi.org/pypi/click/8.4.2/json", "requires_dist": ["colorama; platform_system == \"Windows\""]},
+    {"name": "colorama", "version": "0.4.6", "license": "BSD-3-Clause", "direct": false, "license_source": "wheel", "source_url": "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl", "source_metadata": "https://pypi.org/pypi/colorama/0.4.6/json", "platform_marker": "platform_system == \"Windows\""},
+    {"name": "flask", "version": "3.1.3", "license": "BSD-3-Clause", "direct": true, "license_source": "wheel"},
+    {"name": "flask-cors", "version": "6.0.2", "license": "MIT", "direct": true, "license_source": "supplemental_licenses"},
+    {"name": "idna", "version": "3.18", "license": "BSD-3-Clause", "direct": false, "license_source": "wheel"},
+    {"name": "itsdangerous", "version": "2.2.0", "license": "BSD-3-Clause", "direct": false, "license_source": "wheel"},
+    {"name": "jinja2", "version": "3.1.6", "license": "BSD-3-Clause", "direct": false, "license_source": "wheel"},
+    {"name": "markupsafe", "version": "3.0.3", "license": "BSD-3-Clause", "direct": false, "license_source": "wheel"},
+    {"name": "pillow", "version": "12.1.1", "license": "MIT-CMU", "direct": true, "license_source": "wheel"},
+    {"name": "requests", "version": "2.32.5", "license": "Apache-2.0", "direct": true, "license_source": "wheel"},
+    {"name": "urllib3", "version": "2.7.0", "license": "MIT", "direct": false, "license_source": "wheel"},
+    {"name": "waitress", "version": "3.0.2", "license": "ZPL-2.1", "direct": true, "license_source": "wheel"},
+    {"name": "werkzeug", "version": "3.1.8", "license": "BSD-3-Clause", "direct": false, "license_source": "wheel"}
+  ],
+  "platforms": {
+    "macos-arm64": {
+      "target_triple": "aarch64-apple-darwin",
+      "python_platform_tag": "macosx-11.0-arm64",
+      "pip_platform": "macosx_11_0_arm64",
+      "runtime_asset": {
+        "filename": "cpython-3.11.15+20260718-aarch64-apple-darwin-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.11.15+20260718-aarch64-apple-darwin-install_only_stripped.tar.gz",
+        "bytes": 27115492,
+        "sha256": "b21dbc3f3e01932fcc3f0f4c51e5a7ef61888cb454d23eee6e8207c6f52d0b04",
+        "archive_format": "tar.gz",
+        "ship_to_user": true
+      },
+      "metadata_asset": {
+        "filename": "cpython-3.11.15+20260718-aarch64-apple-darwin-pgo+lto-full.tar.zst",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.11.15+20260718-aarch64-apple-darwin-pgo+lto-full.tar.zst",
+        "bytes": 41202871,
+        "sha256": "e7af7e76dd0b18070d00257565da5caf373df1aa247a92e99902377d705ceb7f",
+        "archive_format": "tar.zst",
+        "ship_to_user": false,
+        "purpose": "build-time PYTHON.json and native-license extraction"
+      },
+      "python_json": {
+        "member": "python/PYTHON.json",
+        "bytes": 108796,
+        "sha256": "423329bd41dde20e00ec5473cf27ba4ebfde2b8e7cdb52b884e48a78880af695",
+        "metadata_version": "8",
+        "build_options": "pgo+lto",
+        "python_exe": "install/bin/python3.11",
+        "license_path": "licenses/LICENSE.cpython.txt"
+      },
+      "wheelhouse_bundle": {
+        "filename": "macos-arm64-wheelhouse.zip",
+        "archive_format": "zip-stored-v1",
+        "count": 18,
+        "bytes": 11127217,
+        "sha256": "33cbc3862888672dacc6a685b7abd9d7982d5b6e1296407742558cbd6211629b"
+      },
+      "license_bundle": {
+        "filename": "macos-arm64-licenses.zip",
+        "archive_format": "zip-stored-v1",
+        "member_count": 39,
+        "bytes": 424146,
+        "sha256": "dc8d72172df494d125b9a03825940c4e6dbd0002ee24ea162fcac1d35a73b1a3",
+        "runtime_recipe": "PYTHON.json + python/licenses/** + python/install/lib/python3.11/LICENSE.txt",
+        "wheel_recipe": "all wheel .dist-info license members + frozen supplemental license"
+      },
+      "wheels": [
+        {"filename": "blinker-1.9.0-py3-none-any.whl", "bytes": 8458, "sha256": "ba0efaa9080b619ff2f3459d1d500c57bddea4a6b424b60a91141db6fd2f08bc"},
+        {"filename": "certifi-2026.7.22-py3-none-any.whl", "bytes": 136983, "sha256": "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775"},
+        {"filename": "charset_normalizer-3.5.1-cp311-cp311-macosx_10_9_universal2.whl", "bytes": 363585, "sha256": "eda059b6bc8bc0812d626fd91a7ce01bf583df0a61296eff390fd94141a34e30"},
+        {"filename": "charset_normalizer-3.5.1-cp312-cp312-macosx_10_13_universal2.whl", "bytes": 344456, "sha256": "5b6d1386bf0096d26d3a863dc0a487a5b4eb9aa93cf5ba69683d29dde6b9d60f"},
+        {"filename": "click-8.4.2-py3-none-any.whl", "bytes": 119243, "sha256": "e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76"},
+        {"filename": "flask-3.1.3-py3-none-any.whl", "bytes": 103424, "sha256": "f4bcbefc124291925f1a26446da31a5178f9483862233b23c0c96a20701f670c"},
+        {"filename": "flask_cors-6.0.2-py3-none-any.whl", "bytes": 13257, "sha256": "e57544d415dfd7da89a9564e1e3a9e515042df76e12130641ca6f3f2f03b699a"},
+        {"filename": "idna-3.18-py3-none-any.whl", "bytes": 65455, "sha256": "7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2"},
+        {"filename": "itsdangerous-2.2.0-py3-none-any.whl", "bytes": 16234, "sha256": "c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef"},
+        {"filename": "jinja2-3.1.6-py3-none-any.whl", "bytes": 134899, "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67"},
+        {"filename": "markupsafe-3.0.3-cp311-cp311-macosx_11_0_arm64.whl", "bytes": 12058, "sha256": "4bd4cd07944443f5a265608cc6aab442e4f74dff8088b0dfc8238647b8f6ae9a"},
+        {"filename": "markupsafe-3.0.3-cp312-cp312-macosx_11_0_arm64.whl", "bytes": 12020, "sha256": "1872df69a4de6aead3491198eaf13810b565bdbeec3ae2dc8780f14458ec73ce"},
+        {"filename": "pillow-12.1.1-cp311-cp311-macosx_11_0_arm64.whl", "bytes": 4657866, "sha256": "365b10bb9417dd4498c0e3b128018c4a624dc11c7b97d8cc54effe3b096f4c38"},
+        {"filename": "pillow-12.1.1-cp312-cp312-macosx_11_0_arm64.whl", "bytes": 4657601, "sha256": "adebb5bee0f0af4909c30db0d890c773d1a92ffe83da908e2e9e720f8edf3984"},
+        {"filename": "requests-2.32.5-py3-none-any.whl", "bytes": 64738, "sha256": "2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6"},
+        {"filename": "urllib3-2.7.0-py3-none-any.whl", "bytes": 131087, "sha256": "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897"},
+        {"filename": "waitress-3.0.2-py3-none-any.whl", "bytes": 56232, "sha256": "c56d67fd6e87c2ee598b76abdd4e96cfad1f24cacdea5078d382b1f9d7b5ed2e"},
+        {"filename": "werkzeug-3.1.8-py3-none-any.whl", "bytes": 226459, "sha256": "63a77fb8892bf28ebc3178683445222aa500e48ebad5ec77b0ad80f8726b1f50"}
+      ],
+      "budget": {"first_download_bytes": 45964863, "target_pass": true, "hard_cap_pass": true}
+    },
+    "windows-amd64": {
+      "target_triple": "x86_64-pc-windows-msvc",
+      "python_platform_tag": "win-amd64",
+      "pip_platform": "win_amd64",
+      "runtime_asset": {
+        "filename": "cpython-3.11.15+20260718-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.11.15+20260718-x86_64-pc-windows-msvc-install_only_stripped.tar.gz",
+        "bytes": 25678291,
+        "sha256": "a48c2dbe832319f61aa8557c9900caec70f7fed0cbee391a4c9ff9f98b50222d",
+        "archive_format": "tar.gz",
+        "ship_to_user": true
+      },
+      "metadata_asset": {
+        "filename": "cpython-3.11.15+20260718-x86_64-pc-windows-msvc-pgo-full.tar.zst",
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.11.15+20260718-x86_64-pc-windows-msvc-pgo-full.tar.zst",
+        "bytes": 42527334,
+        "sha256": "01f6d38fc9248020e71fd89fd0e9ecf4853ac2ea7309af8625f5fd6b4a87e967",
+        "archive_format": "tar.zst",
+        "ship_to_user": false,
+        "purpose": "build-time PYTHON.json and native-license extraction"
+      },
+      "python_json": {
+        "member": "python/PYTHON.json",
+        "bytes": 60896,
+        "sha256": "d112a9c29c1f28b92f13bd4536bf04371b1a4e2bb4dd968aa6584767c2bc4371",
+        "metadata_version": "8",
+        "build_options": "pgo",
+        "python_exe": "install/python.exe",
+        "license_path": "licenses/LICENSE.cpython.txt"
+      },
+      "runtime_archive_layout": {
+        "member_root": "python",
+        "python_exe": "python.exe"
+      },
+      "wheelhouse_bundle": {
+        "filename": "windows-amd64-wheelhouse.zip",
+        "archive_format": "zip-stored-v1",
+        "count": 19,
+        "bytes": 15607217,
+        "sha256": "87944216f61ee713532e297434666b79955cdced8f4e9573775f019ab987aaac"
+      },
+      "license_bundle": {
+        "filename": "windows-amd64-licenses.zip",
+        "archive_format": "zip-stored-v1",
+        "member_count": 40,
+        "bytes": 411633,
+        "sha256": "6ac662ed717f2f158020b8f6d3bb89ea844aca98d2abf1f76583bb540bd275cd",
+        "runtime_recipe": "PYTHON.json + python/licenses/** + python/install/LICENSE.txt",
+        "wheel_recipe": "all wheel .dist-info license members + frozen supplemental license"
+      },
+      "wheels": [
+        {"filename": "blinker-1.9.0-py3-none-any.whl", "bytes": 8458, "sha256": "ba0efaa9080b619ff2f3459d1d500c57bddea4a6b424b60a91141db6fd2f08bc"},
+        {"filename": "certifi-2026.7.22-py3-none-any.whl", "bytes": 136983, "sha256": "62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775"},
+        {"filename": "charset_normalizer-3.5.1-cp311-cp311-win_amd64.whl", "bytes": 206653, "sha256": "f9b1e28d0e8dbfa858abdba91d6b547beaf2df1a59bec6da6faae7b96a4991a9"},
+        {"filename": "charset_normalizer-3.5.1-cp312-cp312-win_amd64.whl", "bytes": 200551, "sha256": "3617ac3cfd8b9888f145ad89dd6e692285834b0201c6074a5eeaad3fd4d668c2", "source_url": "https://files.pythonhosted.org/packages/9d/7a/4c6c298171e6b3e745633180ff59350fc0ca0db1ffd28df1e369e0579f71/charset_normalizer-3.5.1-cp312-cp312-win_amd64.whl"},
+        {"filename": "click-8.4.2-py3-none-any.whl", "bytes": 119243, "sha256": "e6f9f66136c816745b9d65817da91d61d957fb16e02e4dcd0552553c5a197b76"},
+        {"filename": "colorama-0.4.6-py2.py3-none-any.whl", "bytes": 25335, "sha256": "4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6", "source_url": "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl"},
+        {"filename": "flask-3.1.3-py3-none-any.whl", "bytes": 103424, "sha256": "f4bcbefc124291925f1a26446da31a5178f9483862233b23c0c96a20701f670c"},
+        {"filename": "flask_cors-6.0.2-py3-none-any.whl", "bytes": 13257, "sha256": "e57544d415dfd7da89a9564e1e3a9e515042df76e12130641ca6f3f2f03b699a"},
+        {"filename": "idna-3.18-py3-none-any.whl", "bytes": 65455, "sha256": "7f952cbe720b688055e3f87de14f5c3e5fdaa8bc3928985c4077ca689de849a2"},
+        {"filename": "itsdangerous-2.2.0-py3-none-any.whl", "bytes": 16234, "sha256": "c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef"},
+        {"filename": "jinja2-3.1.6-py3-none-any.whl", "bytes": 134899, "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67"},
+        {"filename": "markupsafe-3.0.3-cp311-cp311-win_amd64.whl", "bytes": 15077, "sha256": "de8a88e63464af587c950061a5e6a67d3632e36df62b986892331d4620a35c01"},
+        {"filename": "markupsafe-3.0.3-cp312-cp312-win_amd64.whl", "bytes": 15105, "sha256": "26a5784ded40c9e318cfc2bdb30fe164bdb8665ded9cd64d500a34fb42067b1c", "source_url": "https://files.pythonhosted.org/packages/aa/5b/bec5aa9bbbb2c946ca2733ef9c4ca91c91b6a24580193e891b5f7dbe8e1e/markupsafe-3.0.3-cp312-cp312-win_amd64.whl"},
+        {"filename": "pillow-12.1.1-cp311-cp311-win_amd64.whl", "bytes": 7031448, "sha256": "fbfa2a7c10cc2623f412753cddf391c7f971c52ca40a3f65dc5039b2939e8563"},
+        {"filename": "pillow-12.1.1-cp312-cp312-win_amd64.whl", "bytes": 7033367, "sha256": "21329ec8c96c6e979cd0dfd29406c40c1d52521a90544463057d2aaa937d66a6", "source_url": "https://files.pythonhosted.org/packages/3d/17/688626d192d7261bbbf98846fc98995726bddc2c945344b65bec3a29d731/pillow-12.1.1-cp312-cp312-win_amd64.whl"},
+        {"filename": "requests-2.32.5-py3-none-any.whl", "bytes": 64738, "sha256": "2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6"},
+        {"filename": "urllib3-2.7.0-py3-none-any.whl", "bytes": 131087, "sha256": "9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897"},
+        {"filename": "waitress-3.0.2-py3-none-any.whl", "bytes": 56232, "sha256": "c56d67fd6e87c2ee598b76abdd4e96cfad1f24cacdea5078d382b1f9d7b5ed2e"},
+        {"filename": "werkzeug-3.1.8-py3-none-any.whl", "bytes": 226459, "sha256": "63a77fb8892bf28ebc3178683445222aa500e48ebad5ec77b0ad80f8726b1f50"}
+      ],
+      "budget": {"first_download_bytes": 48995149, "target_pass": true, "hard_cap_pass": true}
+    }
+  }
+}
