@@ -49,6 +49,7 @@ The short installer URL is an immutable mapping to the accepted R62 installer. P
 The following files are authored specifically for the public repository and therefore do not appear in the R62 source whitelist:
 
 - `README.md`
+- `README.zh-CN.md`
 - `SOURCE_PROVENANCE.md`
 - `PUBLIC_SOURCE_MANIFEST.tsv`
 - `CONTRIBUTING.md`
