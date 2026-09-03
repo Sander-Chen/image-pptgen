@@ -1,0 +1,36 @@
+As a world-class professional visual designer and creative director, create a compelling cover-image description in "minimalist" style based on the theme "
+
+{{Deck-Title}}
+
+".
+This description will be used by AI image generation models to create a striking visual.
+
+Language contract: Keep every user-visible title, heading, body, on-slide phrase, and quoted cover text in the same language as the source material and the user's request. Do not translate into English unless the user explicitly asks for English. If the source or request is Chinese, the presentation content must remain Chinese.
+
+Your description should include:
+1. The exact text to be displayed (theme or key phrases, written in the source/request language)
+2. Specific instructions for text placement, size, and style (e.g., top center, large bold font)
+3. A powerful central image or scene embodying the theme
+4. Visual metaphors or symbols enhancing the theme
+5. Color palette, please refer to the "color-reference" at the end.
+6. Layout and focus of image elements, ensuring text visibility
+7. Specified artistic style according to the theme, deep analyse the theme to choose the most appropriate style
+8. Essential background details that don't overshadow the text
+9. Key lighting or shadow effects, considering text readability
+10. Important textures or details to emphasize, complementing the text
+
+Provide this description in a single paragraph of no more than 4000 words, try your best to describe any details you need to make the whole cover better than better. Prioritize text elements and their integration with visual components. Ensure the description is creative and capable of guiding AI to generate a unique and attractive PPT cover image with clear, prominent text.
+
+In the entire output command, except for the on-slide text enclosed in double quotation marks (used to guide the AI in presenting specific text on the cover in the source/request language), the other parts of the command used to generate images are presented in English. Balance the prominence of text with other visual elements to create a cohesive design.
+
+Output format:
+## Image prompt
+### {Generated-content}
+
+Color-reference:
+{{Deck-Required-color}}
+
+
+----
+Given 「article-context」 is below:
+{{Deck-Full-Content}}

@@ -110,38 +110,40 @@ Return JSON only:
 
 Use verdict true when no substantive hard visual issue is visible. Use verdict false when one or more hard visual issues are visible."""
 
-IMAGE_PROMPT_SOURCE_ROOT = Path(__file__).parent / "example" / "image_ppt_input"
+IMAGE_PROMPT_SOURCE_ROOT = Path(__file__).parent / "example" / "prompts"
+IMAGE_PROMPT_LANGUAGE_CONTRACT = (
+    "Keep every user-visible title, heading, body, on-slide phrase, and quoted "
+    "cover text in the same language as the source material and the user's request. "
+    "Do not translate into English unless the user explicitly asks for English. "
+    "If the source or request is Chinese, the presentation content must remain Chinese."
+)
+PUBLIC_IMAGE_PROMPT_ROLES = (
+    "image_cover_3_1",
+    "image_3_0_seed",
+    "image_3_0_non_seed",
+    "image_faithful_split",
+    "image_palette_extraction",
+)
 IMAGE_PROMPT_SOURCE_FILES = {
-    "image_cover_3_1": IMAGE_PROMPT_SOURCE_ROOT / "封面页PPT生成" / "3.1.md",
-    "image_1_0": IMAGE_PROMPT_SOURCE_ROOT / "内容页PPT生成" / "直接文生图分支" / "1.0.md",
-    "image_3_0_seed": IMAGE_PROMPT_SOURCE_ROOT / "内容页PPT生成" / "设计总监分支" / "3.0" / "种子页设计师v3.0.md",
-    "image_3_0_non_seed": IMAGE_PROMPT_SOURCE_ROOT / "内容页PPT生成" / "设计总监分支" / "3.0" / "2-N页设计师v3.0.md",
-    "image_3_2_seed": IMAGE_PROMPT_SOURCE_ROOT / "内容页PPT生成" / "设计总监分支" / "3.2" / "种子页设计师v3.2.md",
-    "image_5_0_unified": IMAGE_PROMPT_SOURCE_ROOT / "内容页PPT生成" / "设计总监分支" / "5.0" / "页设计总监.md",
-}
-IMAGE_PROMPT_SOURCE_ALIASES = {
-    "image_3_2_non_seed": "image_3_0_non_seed",
+    "image_cover_3_1": IMAGE_PROMPT_SOURCE_ROOT / "cover.md",
+    "image_3_0_seed": IMAGE_PROMPT_SOURCE_ROOT / "seed-slide.md",
+    "image_3_0_non_seed": IMAGE_PROMPT_SOURCE_ROOT / "subsequent-slide.md",
+    "image_faithful_split": IMAGE_PROMPT_SOURCE_ROOT / "faithful-split.md",
+    "image_palette_extraction": IMAGE_PROMPT_SOURCE_ROOT / "palette-extraction.md",
 }
 IMAGE_PROMPT_SOURCE_NAMES = {
-    "image_cover_3_1": "Image Cover Prompt 3.1",
-    "image_1_0": "Image 1.0 Direct Prompt",
-    "image_3_0_seed": "Image 3.0 Seed",
-    "image_3_0_non_seed": "Image 3.0 Non Seed",
-    "image_3_2_seed": "Image 3.2 Seed",
-    "image_3_2_non_seed": "Image 3.2 Non Seed",
-    "image_5_0_unified": "Image 5.0 Unified Designer",
+    "image_cover_3_1": "Cover",
+    "image_3_0_seed": "Seed Slide",
+    "image_3_0_non_seed": "Subsequent Slide",
+    "image_faithful_split": "Faithful Split",
+    "image_palette_extraction": "Palette Extraction",
 }
 VARIABLE_RE = re.compile(r"\{\{\s*([^{}]+?)\s*\}\}")
 
 
-def effective_image_prompt_source_role(agent_type: str) -> str:
-    return IMAGE_PROMPT_SOURCE_ALIASES.get(agent_type, agent_type)
-
-
 def get_image_prompt_source_content(agent_type: str) -> str | None:
-    role = effective_image_prompt_source_role(agent_type)
-    path = IMAGE_PROMPT_SOURCE_FILES.get(role)
-    if not path:
+    path = IMAGE_PROMPT_SOURCE_FILES.get(agent_type)
+    if path is None:
         return None
     return path.read_text(encoding="utf-8")
 
@@ -1811,6 +1813,16 @@ def _migrate_db_in_place():
         agent_type: (IMAGE_PROMPT_SOURCE_NAMES[agent_type], get_image_prompt_source_content(agent_type))
         for agent_type in IMAGE_PROMPT_SOURCE_NAMES
     }
+    missing_required = [
+        agent_type
+        for agent_type, (_name, content) in image_default_prompts.items()
+        if content is None
+    ]
+    if missing_required:
+        raise FileNotFoundError(
+            "Required public Image prompt source is missing for: "
+            + ", ".join(missing_required)
+        )
     image_default_prompts.update(
         {
             "image_generator": (

@@ -10,9 +10,11 @@ import db as dbmod
 from backend.services.codex_audit import redact_audit_value
 
 
-HEARTBEAT_MESSAGE = "任务仍在运行，尚无新的业务里程碑。"
-AUTHORIZATION_WAIT_MESSAGE = "正在等待用户授权，授权后会继续当前任务。"
-UNSAFE_REPLY_MESSAGE = "子任务已返回结果，正在进行安全校验。"
+HEARTBEAT_MESSAGE = "The task is still running; no new business milestone yet."
+AUTHORIZATION_WAIT_MESSAGE = (
+    "Waiting for user authorization. The current task will continue after approval."
+)
+UNSAFE_REPLY_MESSAGE = "The child task returned a result and is now being safety-checked."
 
 _PATH_PATTERN = re.compile(
     r"(?:^|[\s'\"`(])(?:/(?:home|root|tmp|var|etc|Users|mnt)/[^\s'\"`)]*|[A-Za-z]:\\[^\s'\"`)]*)"
@@ -116,40 +118,40 @@ def _business_message(
     messages = {
         "command_execution": {
             "design": (
-                "设计步骤已返回，正在校验结果。"
+                "The design step returned and the result is being checked."
                 if completed
-                else "正在准备整体设计方案。"
+                else "Preparing the overall design."
             ),
             "slide": (
-                "页面生成步骤已返回，正在校验产物。"
+                "The page generation step returned and the artifact is being checked."
                 if completed
-                else "正在生成当前页面。"
+                else "Generating the current page."
             ),
             "generic": (
-                "当前处理步骤已返回，正在校验结果。"
+                "The current processing step returned and the result is being checked."
                 if completed
-                else "正在执行当前生成步骤。"
+                else "Running the current generation step."
             ),
         },
         "file_change": {
-            "design": "正在整理整体设计产物。",
-            "slide": "正在整理当前页面产物。",
-            "generic": "正在整理生成产物。",
+            "design": "Organizing the overall design artifact.",
+            "slide": "Organizing the current page artifact.",
+            "generic": "Organizing the generated artifact.",
         },
         "mcp_tool_call": {
-            "design": "正在获取设计所需的辅助信息。",
-            "slide": "正在获取页面生成所需的辅助信息。",
-            "generic": "正在调用已配置的辅助能力。",
+            "design": "Fetching supporting information for the design.",
+            "slide": "Fetching supporting information for page generation.",
+            "generic": "Calling a configured supporting capability.",
         },
         "todo_list": {
-            "design": "正在更新整体设计步骤。",
-            "slide": "正在更新页面生成步骤。",
-            "generic": "正在更新任务执行计划。",
+            "design": "Updating the overall design steps.",
+            "slide": "Updating the page generation steps.",
+            "generic": "Updating the task execution plan.",
         },
         "plan": {
-            "design": "正在更新整体设计步骤。",
-            "slide": "正在更新页面生成步骤。",
-            "generic": "正在更新任务执行计划。",
+            "design": "Updating the overall design steps.",
+            "slide": "Updating the page generation steps.",
+            "generic": "Updating the task execution plan.",
         },
     }
     by_family = messages.get(item_type)

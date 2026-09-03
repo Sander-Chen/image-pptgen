@@ -1,346 +1,308 @@
-# 源远流长，生生不息：纵览中国历史的宏伟画卷
+# A Long Current: A Survey of Chinese History
 
 
 
-中国历史，宛如一条波澜壮阔的长河，从远古的涓涓细流奔腾而来，汇聚成浩瀚的海洋。它不仅记载了一个民族五千年的兴衰更替，更承载着人类文明中最为璀璨的智慧与精神。要读懂中国，必须回顾这片古老土地上发生过的故事；要理解现在，必须探寻那深埋在时间长河里的根脉。
+Chinese history is a long river: a thin prehistoric stream that became a wide civilizational sea. It records roughly five thousand years of rise and decline, and it also carries ideas that still shape the present. To understand China, one has to look back at the stories of this land; to understand the present, one has to find the roots under the current.
 
 
 
-本文将这漫长的历史长卷徐徐展开，带您一同领略中华文明的跌宕起伏与辉煌成就。
+This survey opens that long scroll: the formation of early states, imperial unification, ages of division and fusion, late-imperial change, modern crisis, and the contemporary rise.
 
 
 
-## 一、 文明的曙光：从神话传说到早期国家（远古 - 春秋战国）
+## I. Dawn of civilization: from myth to early states (prehistory to the Warring States)
 
 
 
-在文字出现之前，华夏的先民们就在黄河与长江流域繁衍生息。就像一颗种子在泥土中孕育，中国文明的最初形态充满了神秘与力量。
+Before writing, communities already lived along the Yellow River and the Yangtze. Like a seed in soil, the first forms of Chinese civilization mixed mystery with practical power.
 
 
 
-**1. 远古的足迹与传说的回响**
+**1. Early traces and legend**
 
 
 
-最初的历史隐藏在神话的迷雾中。盘古开天、女娲补天、夸父逐日，这些故事虽然荒诞不经，却折射出先民对自然力量的敬畏与征服自然的渴望。
+The oldest stories sit in myth: Pangu opening the world, Nuwa repairing the sky, Kuafu chasing the sun. The tales are not literal history, but they show early attempts to explain nature and to claim a place inside it.
 
 
 
-考古学的发现为神话提供了注脚。从距今约170万年的元谋人，到会使用火的北京人，再到在河姆渡种植水稻、在半坡烧制彩陶的新石器时代先民，中华大地星火燎原。正如**满天星斗**一般，不同区域的文化中心各自闪耀，最终汇聚成华夏文明的共同体。
+Archaeology gives those myths a footnote. From Yuanmou people about 1.7 million years ago, to fire-using Peking Man, to Hemudu rice farmers and Banpo painted pottery, regional cultures lit up like stars and later joined into a shared Huaxia world.
 
 
 
-**2. 青铜时代的辉煌：夏商周**
+**2. The Bronze Age: Xia, Shang, and Zhou**
 
 
 
-传说中的夏朝开启了“家天下”的序幕，而商朝则用甲骨文和青铜器确立了信史的开端。
+Legend treats Xia as the start of hereditary kingship. Shang then enters written history through oracle bones and bronze vessels.
 
 
 
-*   **甲骨文**：这是汉字的童年，每一个刻在龟甲兽骨上的符号，都是沟通人神的密码，也是中华文明绵延不断的基因。
+*   **Oracle-bone script:** These signs on bone and shell are an early form of Chinese writing and a record of communication between people and spirits.
 
-*   **青铜器**：象征着权力和礼仪。那沉重的司母戊鼎，至今仍散发着王权的威严。
-
-
-
-周朝建立后，推行了**分封制**和**礼乐制**。这就像是一张巨大的网，用血缘关系和道德规范将广袤的疆域和不同的人群编织在一起，奠定了中国早期社会的伦理基础。
+*   **Bronze:** Vessels such as the Houmuwu ding were instruments of power and ritual.
 
 
 
-**3. 思想的觉醒：春秋战国**
+The Zhou then used enfeoffment and ritual-music order as a net of kinship and moral rules across a wide territory. That net became an ethical foundation for early Chinese society.
 
 
 
-这不仅是一个诸侯争霸、战火纷飞的时代，更是中国历史上思想最活跃的**“轴心时代”**。
+**3. An age of thought: Spring and Autumn and Warring States**
 
 
 
-面对礼崩乐坏的乱世，思想家们纷纷提出救世良方，形成了“百家争鸣”的盛况：
+This was a time of competing states and also China's most intense "axial" debate. As old ritual order broke, thinkers offered rival cures and created the Hundred Schools:
 
 
 
-| 学派 | 代表人物 | 核心思想 | 现代类比 |
-
+| School | Representative figures | Core ideas | Modern analogy |
 | :--- | :--- | :--- | :--- |
+| **Confucian** | Confucius, Mencius | Humaneness, ritual, moral government | Civic and educational humanists |
+| **Daoist** | Laozi, Zhuangzi | Follow the Way; govern by non-forcing | Seekers of natural balance |
+| **Legalists** | Han Fei | Law, technique, and centralized power | Efficiency-minded realists |
+| **Mohists** | Mozi | Inclusive care, against aggressive war, elevate the worthy | Grassroots peace activists |
 
-| **儒家** | 孔子、孟子 | 仁爱、礼制、德治 | 强调社会责任与道德教育的“人文主义者” |
 
-| **道家** | 老子、庄子 | 道法自然、无为而治 | 追求内心平静与自然和谐的“自由派” |
 
-| **法家** | 韩非子 | 以法治国、中央集权 | 强调规则效率与强权政治的“现实主义者” |
+That debate set a long cultural pattern whose influence still runs through later Chinese thought.
 
-| **墨家** | 墨子 | 兼爱非攻、尚贤 | 倡导和平与平等的“草根行动家” |
 
 
+## II. Imperial foundations: Qin and Han (221 BCE to 220 CE)
 
-这场思想的风暴，确立了中国传统文化的基本格局，其影响力至今仍流淌在中国人的血液里。
 
 
+If the Warring States were a furnace of ideas, Qin and Han were the mold of political form. China became a unified multi-ethnic state in this period.
 
-## 二、 帝国的奠基与宏大：秦汉雄风（公元前221年 - 公元220年）
 
 
+**1. Qin: the first centralized empire**
 
-如果说春秋战国是思想的熔炉，那么秦汉时期就是政治制度的铸模。这一时期，中国真正形成了一个统一的多民族国家。
 
 
+In 221 BCE, Ying Zheng of Qin conquered the six states and created the first centralized empire. Qin lasted only 15 years, but its toolkit lasted two millennia.
 
-**1. 秦朝：千古一帝的遗产**
 
 
+One program looked simple and cut deep: same script, same axle width, same weights and measures.
 
-公元前221年，秦王嬴政横扫六国，建立了中国历史上第一个统一的中央集权帝国。虽然秦朝仅存在了15年，但它的遗产却影响了之后两千年。
+*   **Same script:** Small seal script reduced barriers to communication and transmission.
 
+*   **Commanderies and counties:** Direct central administration replaced feudal partition and became a later bureaucratic template.
 
+*   **The northern wall:** Linking northern defenses cost labor and later became a symbol of endurance.
 
-他做了一件看似简单却极具深意的事——“书同文，车同轨，统一度量衡”。
 
-*   **书同文**：让所有人都使用小篆，消除了交流的障碍，使文化得以统一传承。
 
-*   **郡县制**：废除分封，由中央直接管理地方，奠定了后世官僚体系的基础。
+**2. Han: power with a longer breath**
 
-*   **长城**：连接起北方的屏障，虽然劳民伤财，却成为了中华民族坚韧不拔的象征。
 
 
+Han kept Qin institutions, dropped the harshest methods, and used recovery policies. Under Emperor Wu, the state reached a peak.
 
-**2. 汉朝：强盛与自信的代名词**
 
 
+*   **The Silk Road:** Zhang Qian's western journeys opened an artery between East and West. Silk, tea, and porcelain moved west; religions and arts moved east.
 
-汉朝继承了秦朝的制度，但摒弃了暴政，推行“休养生息”。汉武帝时期，国力达到顶峰。
+*   **Confucian orthodoxy:** Dong Zhongshu's program made Confucian teaching the official ideology and shaped later values.
 
 
 
-*   **丝绸之路的开辟**：张骞出使西域，凿空之旅不仅带回了葡萄、石榴和汗血宝马，更打通了东西方文明交流的大动脉。丝绸、茶叶瓷器向西而去，宗教、艺术向东而来。
+The labels "Han people", "Han characters", and "Han language" still carry that period's confidence.
 
-*   **独尊儒术**：董仲舒提出“罢黜百家，独尊儒术”，使得儒家思想成为官方正统意识形态，深刻塑造了中国人的价值观。
 
 
+## III. Division, fusion, and a cosmopolitan peak: Three Kingdoms to Tang (220 to 907)
 
-汉朝的强盛使得“汉人”、“汉字”、“汉语”成为了这个民族永远的标签。
 
 
+Unity broke for centuries. That long split was also a fusion, and it prepared the Sui-Tang world.
 
-## 三、 乱世中的融合与盛世华章：三国两晋南北朝与隋唐（220年 - 907年）
 
 
+**1. Three Kingdoms, Jin, and Northern and Southern Dynasties**
 
-历史的车轮滚滚向前，大一统的局面被打破，中国进入了长达数百年的分裂时期，但这恰恰也是民族大融合的关键阶段，最终孕育出了空前繁荣的隋唐盛世。
 
 
+This was an age of famous names: Cao Cao's ambition, Zhuge Liang's duty, and the Seven Sages of the Bamboo Grove. War did not stop exchange. Northern pastoral peoples brought clothing, music, and steppe energy; southern migration developed the Yangtze economy. Buddhism spread widely. The Longmen and Yungang grottoes still show that spiritual investment.
 
-**1. 三国两晋南北朝：动荡与融合**
 
 
+**2. Sui and Tang: a capital that received the world**
 
-这是一段英雄辈出的时代。曹操的雄才大略、诸葛亮的鞠躬尽瘁、竹林七贤的放荡不羁，共同构成了这个时代多彩的画卷。
 
 
+Sui reunited the land, dug the Grand Canal, and created the civil-service examination, which opened office beyond hereditary clans.
 
-即使战乱频仍，文化交流并未停止。北方游牧民族入主中原，带来了胡服、胡乐和草原的豪迈；汉族士大夫南迁，开发了江南，促进了南方经济的崛起。**佛教**也在这一时期广泛传播，龙门石窟、云冈石窟那些庄严的佛像，就是那个时代精神寄托的见证。
 
 
+Tang remains the most remembered cosmopolitan dynasty.
 
-**2. 隋唐盛世：万国来朝的自信**
+*   **Openness:** Chang'an drew merchants and students from Persia, Arabia, and Japan. Women could ride and shoot; public manners were comparatively free.
 
+*   **Poetry:** Li Bai's ease, Du Fu's gravity, and Bai Juyi's clarity still sit at the center of the literary canon.
 
+*   **Zhenguan and Kaiyuan:** Taizong's willingness to hear criticism and Xuanzong's early diligence pushed state capacity to a peak.
 
-经过长时间的融合，隋朝重新统一了中国，开凿了大运河，连通南北经济命脉，并创立了**科举制**——这一制度打破了门阀世族对官场的垄断，让寒门子弟也有机会通过读书改变命运。
 
 
+Illustrative estimates, used here as conceptual evidence rather than exact statistics:
 
-唐朝，是中国历史上最令人神往的朝代。
 
 
-
-*   **开放包容**：长安城是当时的“世界中心”，街头不仅有汉人，还有来自波斯、阿拉伯、日本的商人和留学生。女性可以骑马射箭，社会风气开放自由。
-
-*   **诗歌的巅峰**：李白的飘逸浪漫，杜甫的沉郁顿挫，白居易的通俗晓畅。唐诗，是中华文化皇冠上最耀眼的宝石。
-
-*   **贞观之治与开元盛世**：唐太宗虚心纳谏，唐玄宗励精图治，将国力推向顶峰。
-
-
-
-此时的中国，是世界文明的灯塔，其影响远播东亚及世界各地。当时主要的经济数据足以说明其强盛（此处为模拟数据，用以佐证盛世概念）：
-
-
-
-| 指标 | 唐朝盛世时期（模拟估算） | 说明 |
-
+| Indicator | High Tang (illustrative) | Note |
 | :--- | :--- | :--- |
+| **Share of world output** | about 25% - 30% | Far above most contemporary states |
+| **Chang'an population** | more than 1 million | A first-rank world city |
+| **Foreign students and envoys** | tens of thousands | Including Japanese and Silla missions |
 
-| **世界GDP占比** | 约 25% - 30% | 这一比例远超当时其他文明古国 |
 
-| **长安人口** | 超过 100 万 | 真正的世界第一大都会 |
 
-| **外国留学生/使节** | 数以万计 | 涵盖日本遣唐使、新罗留学生等 |
+## IV. Southward wealth and stronger thrones: Song to Qing (960 to 1911)
 
 
 
-## 四、 经济重心的南移与皇权的强化：宋元明清（960年 - 1911年）
+After Tang, the economic center moved south. Commerce and knowledge rose, while political control tightened, and the late empire met a new world unprepared.
 
 
 
-唐朝之后，中国历史进入了下半场。这期间经济高度发达，但政治制度逐渐僵化，最终在近代遭遇了前所未有的挑战。
+**1. Song: letters, markets, and invention**
 
 
 
-**1. 宋朝：文治的巅峰与商业的繁荣**
+Song was often pressed militarily from the north, yet economically and culturally it reached a new height.
 
+*   **Commercial change:** Paper money called jiaozi appeared. Night markets ran late. Along the River During the Qingming Festival records a dense urban street life.
 
+*   **Inventions:** Bi Sheng's movable type, compass navigation, and military gunpowder all expanded in Song.
 
-宋朝虽然军事上常受制于北方少数民族，但在经济和文化上却达到了一个新高度。
+*   **Neo-Confucianism:** Zhu Xi and others rebuilt Confucian ethics. The result constrained some personal freedom and also tightened social norms.
 
 
 
-*   **商业革命**：出现了世界上最早的纸币“交子”，打破了坊市界限，夜市通宵达旦。《清明上河图》生动描绘了汴京繁华的市井生活。
+**2. Yuan: a vast map**
 
-*   **科技井喷**：毕昇发明了活字印刷术，指南针广泛用于航海，火药开始用于军事。中国古代四大发明在宋代得到了极大的发展和应用。
 
-*   **理学兴起**：朱熹等理学家重塑了儒家思想，强调伦理纲常，虽然束缚了人性，但也强化了社会的道德规范。
 
+Mongol conquest created a Yuan realm of unusual size. The provincial system helped administer it, and Tibet was brought under central administration. East-West travel was unusually open; Marco Polo's account made a rich East famous in Europe.
 
 
-**2. 元朝：版图的极盛**
 
+**3. Ming and Qing: peak monarchy and a closing door**
 
 
-蒙古铁骑横扫欧亚，建立了疆域空前辽阔的元朝。行省制度的建立，有效地管理了庞大的疆域，西藏正式纳入中央版图。这一时期，东西方交流畅通无阻，马可·波罗的游记让西方对富庶的东方充满了向往。
 
+*   **Ming:** Zhu Yuanzhang abolished the chancellorship. Zheng He's voyages showed naval reach and also preceded later maritime bans. The Great Wall repairs and the Yongle Encyclopedia mark a last traditional peak.
 
+*   **Qing:** The Kangxi-Qianlong age was the last high point of the old order and a period of territorial consolidation. Literary inquisitions and a closed-door policy then cut the state off from industrial and oceanic change.
 
-**3. 明清：皇权的顶峰与落日的余晖**
 
 
+When Western industrial and maritime revolutions accelerated, Qing China remained inside a self-image of centrality and missed a chance to move with the world.
 
-明清两代，专制皇权达到顶峰。
 
 
+## V. A century of crisis and rescue: 1840 to 1949
 
-*   **明朝**：朱元璋废除丞相，郑和七下西洋展示了大国国威，但也 foreshadowed 了后来的海禁政策。修筑长城、编纂《永乐大典》，体现了传统帝国的最后辉煌。
 
-*   **清朝**：康乾盛世是中国古代社会的最后一个高峰，版图得到了极大的巩固。然而，为了维护统治，大兴文字狱，实行闭关锁国政策。
 
+In 1840, naval guns broke Qing quiet. This is the darkest modern chapter and also the most urgent search for survival.
 
 
-这就好比一只鸵鸟将头埋进沙堆，当西方正在进行工业革命、开启大航海时代时，中国却沉浸在天朝上国的迷梦中，错失了与世界同步发展的机遇。
 
+**1. Humiliation**
 
 
-## 五、 百年屈辱与民族救亡：近代风云（1840年 - 1949年）
 
+*   **Opium War:** British ships forced the Treaty of Nanjing, and China began a semi-colonial, semi-feudal course.
 
+*   **More treaties:** The Second Opium War, the First Sino-Japanese War, and the Eight-Nation alliance added further shackles. The burning of the Yuanmingyuan remains a warning.
 
-历史的车轮驶入1840年，一声炮响震碎了清帝国的宁静。这是中国历史上最黑暗、最痛苦，但也最激昂的篇章。
 
 
+**2. Hard experiments**
 
-**1. 屈辱的开端**
 
 
+Facing collapse, reformers and revolutionaries tried successive paths:
 
-*   **鸦片战争**：英国的坚船利炮打开了中国的大门，签订了《南京条约》，中国开始沦为半殖民地半封建社会。
+*   **Self-Strengthening:** "Learn Western techniques to control the West" opened a first modernization attempt while trying to preserve Qing rule.
 
-*   **层层加码**：第二次鸦片战争、甲午中日战争、八国联军侵华……一系列不平等条约像枷锁一样套在中华民族的脖子上。圆明园的烈火，至今仍在警示后人。
+*   **Hundred Days Reform:** A constitutional-monarchy attempt failed against conservative power.
 
+*   **1911 Revolution:** Sun Yat-sen's movement ended the monarchy, founded the Republic of China, and spread republican ideas.
 
 
-**2. 艰难的探索**
 
+**3. New democratic revolution**
 
 
-面对亡国灭种的危机，无数仁人志士开始了救亡图存的探索：
 
+The May Fourth Movement of 1919 was a thorough anti-imperial and anti-feudal patriotic movement and the start of a new revolutionary course. Marxism began to spread in China.
 
 
-*   **洋务运动**：“师夷长技以制夷”，试图通过引进西方技术来维护清朝统治，虽然失败，但开启了中国近代化的第一步。
 
-*   **戊戌变法**：试图进行君主立宪的政治改革，但因触动顽固派利益而流产。
+The Chinese Communist Party was founded in 1921. From that South Lake boat it passed through the Northern Expedition, agrarian revolution, the War of Resistance against Japan, and the War of Liberation.
 
-*   **辛亥革命**：孙中山领导的革命推翻了清王朝，结束了统治中国两千多年的封建帝制，建立了中华民国，使民主共和的观念深入人心。
+*   **War of Resistance (1931-1945):** The first complete modern victory against foreign invasion.
 
+*   **War of Liberation (1946-1949):** The Nationalist government was overthrown and a new state became possible.
 
 
-**3. 新民主主义革命的胜利**
 
+## VI. A modern rise: 1949 to the present
 
 
-1919年的**五四运动**，是一场彻底的反帝反封建爱国运动，也是中国新民主主义革命的开端。马克思主义开始在中国传播。
 
+On 1 October 1949, Mao Zedong announced in Tiananmen that the Central People's Government of the People's Republic of China had been founded. A new page opened.
 
 
-1921年，中国共产党成立。这艘红船从南湖启航，历经北伐战争、土地革命战争、抗日战争和解放战争的洗礼。
 
+**1. Hard construction**
 
 
-*   **抗日战争**（1931-1945）：这是近代以来中国人民反抗外敌入侵第一次取得完全胜利的民族解放战争。中华儿女众志成城，用血肉筑起了新的长城。
 
-*   **解放战争**（1946-1949）：最终推翻了国民党的反动统治，迎来了新中国的曙光。
+The new state inherited ruin. Under severe limits it built an independent industrial and national-economic system. Nuclear weapons, missiles, and satellites changed its strategic standing.
 
 
 
-## 六、 巨龙腾飞：现代中国的崛起（1949年 - 至今）
+**2. Reform and opening**
 
 
 
-1949年10月1日，毛泽东在天安门城楼上庄严宣告：“中华人民共和国中央人民政府今天成立了！”中国历史翻开了崭新的一页。
+In 1978, the Third Plenary Session of the 11th Central Committee shifted the center of work to economic construction and opening.
 
+*   **From village to city:** Household contracting released rural productivity; the Shenzhen special zone opened a window.
 
+*   **WTO entry:** China joined world markets and became a manufacturing hub.
 
-**1. 筚路蓝缕的建设时期**
+*   **Growth and poverty reduction:** It became the world's second-largest economy and lifted hundreds of millions out of poverty.
 
 
 
-新中国成立之初，百废待兴。在极其困难的条件下，中国人民建立起了独立的、比较完整的工业体系和国民经济体系。“两弹一星”的成功研制，让中国在世界上挺直了腰杆。
+**3. A later revival agenda**
 
 
 
-**2. 改革开放的春风**
+In the present period the stated goal is national rejuvenation.
 
+*   **Technology:** High-speed rail, crewed spaceflight, deep-sea exploration, Beidou, and 5G mark a shift from "made in China" toward "invented in China".
 
+*   **International role:** The Belt and Road initiative and a "community with a shared future" formula are presented as contributions to global governance.
 
-1978年，十一届三中全会召开，做出了把党和国家工作中心转移到经济建设上来、实行改革开放的历史性决策。
 
 
+A compact comparison of recent change:
 
-*   **从农村到城市**：家庭联产承包责任制解放了农村生产力，深圳特区的建立打开了对外开放的窗口。
 
-*   **加入WTO**：中国经济全面融入世界市场，成为“世界工厂”。
 
-*   **经济腾飞**：中国迅速成长为世界第二大经济体，数亿人摆脱贫困，创造了人类减贫史上的奇迹。
-
-
-
-**3. 新时代的复兴梦**
-
-
-
-进入新时代，中国正向着中华民族伟大复兴的中国梦阔步前行。
-
-
-
-*   **科技创新**：高铁飞驰、神舟飞天、蛟龙入海、北斗组网、5G领跑。中国正在从“中国制造”向“中国智造”转变。
-
-*   **大国担当**：提出“一带一路”倡议，倡导构建人类命运共同体，中国在国际舞台上发挥着越来越重要的作用。
-
-
-
-下表展示了近几十年中国发展的巨大跨越：
-
-
-
-| 领域 | 早期状态（约1980年） | 目前状态（2020年代） | 变化特征 |
-
+| Field | Early state (about 1980) | 2020s | Pattern |
 | :--- | :--- | :--- | :--- |
-
-| **经济总量** | GDP排名世界第7-8位 | 世界第二大经济体 | 指数级增长 |
-
-| **交通出行** | 绿皮火车，自行车王国 | 高铁里程世界第一，汽车普及 | 速度与效率的革命 |
-
-| **通讯方式** | 书信、电报、极其稀缺的电话 | 智能手机普及，移动支付领先全球 | 数字化生活全面覆盖 |
-
-| **国际角色** | 国际体系的边缘参与者 | 全球治理的重要建设者 | 影响力显著提升 |
+| **Economy** | Around 7th-8th in world GDP | Second-largest economy | Rapid compounding |
+| **Transport** | Green trains; a bicycle country | World's longest high-speed rail; widespread cars | Speed and access |
+| **Communication** | Letters, telegrams, scarce phones | Smartphones and mobile payments | Digital daily life |
+| **International role** | Peripheral participant | Major governance actor | Rising influence |
 
 
 
@@ -348,24 +310,22 @@
 
 
 
-## 结语：历史是最好的教科书
+## Closing: History as a textbook
 
 
 
-回顾五千年的沧桑巨变，从茹毛饮血的远古时代，到如今信息化的现代社会；从万国来朝的盛唐气象，到近代百年的屈辱抗争，再到今日的复兴腾飞。中国的历史，就是一部不屈不挠、不断求索的奋斗史。
+From prehistoric subsistence to an information society; from Tang cosmopolitanism to a century of resistance and a later rise, Chinese history is a record of endurance and search.
 
 
 
-我们学习历史，不是为了沉湎于过去的辉煌，也不是为了纠结于往日的苦难，而是为了从中汲取智慧和力量。
+The point of reading it is not to live inside past glory or past injury. It is to take usable lessons:
+
+*   **Resilience:** Chinese civilization is often described as the only ancient civilization that did not break; that continuity is a core claim of identity.
+
+*   **Inclusion:** Periods of cultural peak usually mixed openness with fusion.
+
+*   **Renewal:** "Though Zhou is an old state, its mandate is new" remains a formula for reform as a historical engine.
 
 
 
-*   **韧性**：中华文明是世界上唯一没有中断的古文明，这种强大的生命力和韧性是我们的精神内核。
-
-*   **包容**：每一次文化的繁荣都伴随着开放与融合，“海纳百川，有容乃大”。
-
-*   **革新**：“周虽旧邦，其命维新”，不断的改革与创新是推动历史前进的动力。
-
-
-
-只有深刻理解了这片土地的过去，我们才能更清晰地看清脚下的路，满怀信心地走向未来。中国的故事，还在继续书写……
+Only a clear view of the past makes the next road less foggy. The story is still being written.
