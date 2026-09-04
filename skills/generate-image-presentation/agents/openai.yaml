@@ -1,6 +1,6 @@
 interface:
   display_name: "Generate Image Presentation"
-  short_description: "Create and follow an Image PPT 3.0 presentation"
-  default_prompt: "Use $generate-image-presentation to review, confirm, and follow one Image PPT 3.0 Run."
+  short_description: "Create and follow an Image PPTGen 3.0 presentation"
+  default_prompt: "Use $generate-image-presentation to review, confirm, and follow one Image PPTGen 3.0 Run."
 policy:
   allow_implicit_invocation: true

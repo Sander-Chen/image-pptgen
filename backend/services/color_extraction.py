@@ -18,7 +18,7 @@ import db as dbmod
 from backend.services.llm_concurrency import acquire_provider_slot
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-PROMPT_PATH = BASE_DIR / "example" / "提取配图颜色.md"
+PROMPT_PATH = dbmod.IMAGE_PROMPT_SOURCE_FILES["image_palette_extraction"]
 UPLOAD_DIR = BASE_DIR / "artifacts" / "color_uploads"
 PALETTE_MODEL = "gemini-3-flash-preview"
 GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models"

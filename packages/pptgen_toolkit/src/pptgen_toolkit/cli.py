@@ -152,7 +152,7 @@ def _parser() -> argparse.ArgumentParser:
 def _split_projection(draft: dict[str, Any]) -> dict[str, Any]:
     slides = draft["slides"]
     markdown = "\n\n".join(
-        f"## 第 {index} 页：{slide.get('title') or f'第 {index} 页'}\n\n"
+        f"## Page {index}: {slide.get('title') or f'Page {index}'}\n\n"
         f"{str(slide.get('content') or '').strip()}"
         for index, slide in enumerate(slides, start=1)
     )
@@ -217,17 +217,21 @@ def _progress_projection(
         finish_status = "failed"
 
     if run_status in {"queued", "pending"}:
-        current_activity = "等待现有任务队列开始生成"
+        current_activity = "Waiting for the existing task queue to start generation"
     elif run_status == "running" and not design_ready:
-        current_activity = "正在生成整体设计方案"
+        current_activity = "Generating the overall design"
     elif run_status == "running":
-        current_activity = f"设计方案已生成；正在生成页面，已完成 {completed}/{total} 页"
+        current_activity = (
+            f"Design is ready; generating pages, {completed}/{total} complete"
+        )
     elif run_status == "completed" and failed == 0:
-        current_activity = f"全部 {completed} 页已生成完成"
+        current_activity = f"All {completed} pages have been generated"
     elif failed > 0:
-        current_activity = f"页面生成已结束：成功 {completed} 页，失败 {failed} 页"
+        current_activity = (
+            f"Page generation ended: {completed} succeeded, {failed} failed"
+        )
     else:
-        current_activity = f"任务已结束，状态为 {run_status}"
+        current_activity = f"The task ended with status {run_status}"
 
     source_facts = {
         "completed_slides": completed,
@@ -245,15 +249,15 @@ def _progress_projection(
         "run_id": run_id,
         "source_facts": source_facts,
         "task_progress": [
-            {"step": "设计方案", "status": design_status},
-            {"step": "页面生成", "status": page_status},
-            {"step": "完成", "status": finish_status},
+            {"step": "Design", "status": design_status},
+            {"step": "Page generation", "status": page_status},
+            {"step": "Done", "status": finish_status},
         ],
     }
     if event == "heartbeat":
         projection.update(
             {
-                "current_activity": "任务仍在运行，尚无新的业务里程碑。",
+                "current_activity": "The task is still running; no new business milestone yet.",
                 "kind": "heartbeat",
                 "milestone": False,
             }
@@ -581,7 +585,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 if provisional["event"] == "heartbeat":
                     provisional.update(
                         {
-                            "current_activity": "任务仍在运行，尚无新的业务里程碑。",
+                            "current_activity": "The task is still running; no new business milestone yet.",
                             "kind": "heartbeat",
                             "milestone": False,
                         }

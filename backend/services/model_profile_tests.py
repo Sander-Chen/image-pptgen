@@ -18,7 +18,9 @@ from backend.services import model_profiles
 from backend.services.codex_exec import materialize_codex_result_final_text, run_codex_exec_json
 
 TEST_PROMPT = "Reply with OK if this model id is callable."
-CODEX_PROFILE_TEST_PROMPT = "你好。请只回复 CODEX_PROFILE_TEST_OK，不要解释，不要使用工具。"
+CODEX_PROFILE_TEST_PROMPT = (
+    "Hello. Reply only with CODEX_PROFILE_TEST_OK. Do not explain and do not use tools."
+)
 CODEX_SMOKE_TEST_MODE = "codex_smoke"
 CODEX_PROFILE_TEST_MODE = "codex_profile"
 IMAGE_TEST_XML = "<slide><title>Model test</title><text>Generate a minimal verification image.</text></slide>"

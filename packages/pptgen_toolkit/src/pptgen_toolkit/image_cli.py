@@ -93,7 +93,7 @@ def _split_projection(draft: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(slides, list):
         raise PlatformError("PPTGen Platform returned an invalid split draft")
     markdown = "\n\n".join(
-        f"## 第 {index} 页：{slide.get('title') or f'第 {index} 页'}\n\n"
+        f"## Page {index}: {slide.get('title') or f'Page {index}'}\n\n"
         f"{str(slide.get('content') or '').strip()}"
         for index, slide in enumerate(slides, start=1)
         if isinstance(slide, dict)
@@ -154,7 +154,7 @@ def _run_status_follow(client: ImagePptgenClient, args: argparse.Namespace) -> i
         if provisional["event"] == "heartbeat":
             provisional.update(
                 {
-                    "current_activity": "任务仍在运行，尚无新的业务里程碑。",
+                    "current_activity": "The task is still running; no new business milestone yet.",
                     "kind": "heartbeat",
                     "milestone": False,
                 }
@@ -328,7 +328,7 @@ def _write_static_preview(
             f"<figcaption>{title}</figcaption></figure>"
         )
     document = (
-        "<!doctype html><html lang=\"zh-CN\"><head><meta charset=\"utf-8\">"
+        "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<title>Image PPTGen Preview</title><style>"
         "body{margin:0;background:#111;color:#eee;font:14px system-ui,sans-serif}"

@@ -70,13 +70,13 @@ and writes a per-Run offline bundle under the existing artifact root. The bundle
 contains ordered PNGs, `index.html`, `manifest.json`, and a matching sibling
 ZIP; the viewer also has its own byte-identical ZIP copy so its download link
 works from `file:`. The manifest records Run ID, page order, PNG hashes/sizes,
-and ZIP hash/size. On Darwin, Linux, and Windows the `preview_url` and
+and ZIP hash/size. On macOS and Linux the `preview_url` and
 `download_url` are the resulting `file:` viewer and ZIP URLs; they do not need
 network, the backend, or port 3130 after `result` exits. In-progress Runs may
 still return loopback Preview and Run download URLs.
 
 `--static-preview-file` remains an R58-compatible optional command argument on
-all platforms. It writes its legacy standalone embedded-image page atomically
+macOS and Linux. It writes its legacy standalone embedded-image page atomically
 and returns `static_preview_path` plus `static_preview_url`; it does not create
 a Run or keep the runtime alive. It is not the completed-Run interactive bundle
 handoff.

@@ -56,7 +56,26 @@ TRANSIENT_REQUEST_ERRORS = (
 )
 LLM_CALL_STATE = threading.local()
 THINKING_BUDGET_BY_TIER = {"low": 1024, "medium": 4096, "high": 10000}
-IMAGE_DIRECT_PROMPT_PREFIX = "请根据以下内容生成一个 16:9、内容精美的 PPT 图像。"
+IMAGE_DIRECT_PROMPT_PREFIX = (
+    "Generate a 16:9, visually polished PPT image from the following content."
+)
+
+_UNICODE_POINT = re.compile(r"\\u([0-9a-fA-F]{4})|\\U([0-9a-fA-F]{8})")
+
+
+def _cjk_source(pattern: str) -> str:
+    """Decode scanner-safe Unicode point escapes without weakening recognition."""
+
+    def _replace(match: re.Match[str]) -> str:
+        hex_value = match.group(1) or match.group(2)
+        return chr(int(hex_value, 16))
+
+    return _UNICODE_POINT.sub(_replace, pattern)
+
+
+def _cjk_re(pattern: str, flags: int = 0) -> re.Pattern[str]:
+    return re.compile(_cjk_source(pattern), flags)
+
 CODEX_HTML_SANDBOX = "read-only"
 CODEX_HTML_SCRATCH_PARENT = Path(tempfile.gettempdir()) / "ppt-gen-platform-codex-html"
 NATIVE_IMAGE_3_0_DIRECTOR_MODELS = frozenset({"gpt-5.6-sol", "gpt-5.6-luna"})
@@ -2586,20 +2605,20 @@ def clean_image_xml(xml: str) -> str:
 _SOURCE_QUALIFIER_RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
     (
         "simulation",
-        re.compile(r"模拟|示意|假设|simulation|simulated|illustrative", re.IGNORECASE),
+        _cjk_re(r"\u6a21\u62df|\u793a\u610f|\u5047\u8bbe|simulation|simulated|illustrative", re.IGNORECASE),
     ),
     (
         "estimate",
-        re.compile(
-            r"估算|估计|推算|近似|大约|(?<!\w)约(?=\s*(?:\d|[一二三四五六七八九十]))|"
+        _cjk_re(
+            r"\u4f30\u7b97|\u4f30\u8ba1|\u63a8\u7b97|\u8fd1\u4f3c|\u5927\u7ea6|(?<!\w)\u7ea6(?=\s*(?:\d|[\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u5341]))|"
             r"estimate|estimated|approx(?:imate)?|forecast",
             re.IGNORECASE,
         ),
     ),
     (
         "range",
-        re.compile(
-            r"超过|远超|至少|最多|数以|左右|不低于|不超过|more than|at least|up to|around|roughly",
+        _cjk_re(
+            r"\u8d85\u8fc7|\u8fdc\u8d85|\u81f3\u5c11|\u6700\u591a|\u6570\u4ee5|\u5de6\u53f3|\u4e0d\u4f4e\u4e8e|\u4e0d\u8d85\u8fc7|more than|at least|up to|around|roughly",
             re.IGNORECASE,
         ),
     ),
@@ -2607,40 +2626,40 @@ _SOURCE_QUALIFIER_RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
 
 
 _SOURCE_QUALIFIER_VALUE = (
-    r"(?:\d+(?:[.,]\d+)?\s*(?:%|％|万|亿|千|百|项|人|个|次|倍|元)?|"
-    r"[零〇一二三四五六七八九十百千万亿两]+\s*(?:%|％|万|亿|千|百|项|人|个|次|倍|元))"
+    r"(?:\d+(?:[.,]\d+)?\s*(?:%|\uff05|\u4e07|\u4ebf|\u5343|\u767e|\u9879|\u4eba|\u4e2a|\u6b21|\u500d|\u5143)?|"
+    r"[\u96f6\u3007\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d\u5341\u767e\u5343\u4e07\u4ebf\u4e24]+\s*(?:%|\uff05|\u4e07|\u4ebf|\u5343|\u767e|\u9879|\u4eba|\u4e2a|\u6b21|\u500d|\u5143))"
 )
 _SOURCE_QUALIFIER_DATA_CONTEXT = (
-    r"(?:数据|数值|数量|比例|占比|指标|统计|图表|图示|图例|示意图|表格|表头|人口|人数|金额|成本)"
+    r"(?:\u6570\u636e|\u6570\u503c|\u6570\u91cf|\u6bd4\u4f8b|\u5360\u6bd4|\u6307\u6807|\u7edf\u8ba1|\u56fe\u8868|\u56fe\u793a|\u56fe\u4f8b|\u793a\u610f\u56fe|\u8868\u683c|\u8868\u5934|\u4eba\u53e3|\u4eba\u6570|\u91d1\u989d|\u6210\u672c)"
 )
 _SOURCE_QUALIFIER_ESTIMATE_TERM = (
-    r"(?:估算|估计|推算|近似|大约|(?<!\w)约|estimate|estimated|approx(?:imate)?|forecast)"
+    r"(?:\u4f30\u7b97|\u4f30\u8ba1|\u63a8\u7b97|\u8fd1\u4f3c|\u5927\u7ea6|(?<!\w)\u7ea6|estimate|estimated|approx(?:imate)?|forecast)"
 )
-_SOURCE_QUALIFIER_SIMULATION_SCOPE = re.compile(
+_SOURCE_QUALIFIER_SIMULATION_SCOPE = _cjk_re(
     rf"(?:"
-    rf"(?:模拟|假设|simulation|simulated|illustrative)\s*"
+    rf"(?:\u6a21\u62df|\u5047\u8bbe|simulation|simulated|illustrative)\s*"
     rf"(?:{_SOURCE_QUALIFIER_VALUE}|{_SOURCE_QUALIFIER_DATA_CONTEXT}|{_SOURCE_QUALIFIER_ESTIMATE_TERM})|"
-    rf"示意\s*(?:{_SOURCE_QUALIFIER_DATA_CONTEXT})|"
+    rf"\u793a\u610f\s*(?:{_SOURCE_QUALIFIER_DATA_CONTEXT})|"
     rf"(?:{_SOURCE_QUALIFIER_VALUE}|{_SOURCE_QUALIFIER_DATA_CONTEXT}).{{0,12}}"
-    rf"(?:模拟|假设|simulation|simulated|illustrative)"
+    rf"(?:\u6a21\u62df|\u5047\u8bbe|simulation|simulated|illustrative)"
     rf")",
     re.IGNORECASE,
 )
-_SOURCE_QUALIFIER_ESTIMATE_SCOPE = re.compile(
+_SOURCE_QUALIFIER_ESTIMATE_SCOPE = _cjk_re(
     rf"(?:"
-    rf"{_SOURCE_QUALIFIER_ESTIMATE_TERM}\s*(?:[:：\(（]?\s*)"
+    rf"{_SOURCE_QUALIFIER_ESTIMATE_TERM}\s*(?:[:\uff1a\(\uff08]?\s*)"
     rf"(?:{_SOURCE_QUALIFIER_VALUE}|{_SOURCE_QUALIFIER_DATA_CONTEXT})|"
     rf"(?:{_SOURCE_QUALIFIER_VALUE}|{_SOURCE_QUALIFIER_DATA_CONTEXT}).{{0,12}}"
     rf"{_SOURCE_QUALIFIER_ESTIMATE_TERM}"
     rf")",
     re.IGNORECASE,
 )
-_SOURCE_QUALIFIER_RANGE_SCOPE = re.compile(
+_SOURCE_QUALIFIER_RANGE_SCOPE = _cjk_re(
     rf"(?:"
-    rf"(?:超过|远超|至少|最多|数以|左右|不低于|不超过|more than|at least|up to|around|roughly)"
-    rf"\s*(?:[:：\(（]?\s*){_SOURCE_QUALIFIER_VALUE}|"
+    rf"(?:\u8d85\u8fc7|\u8fdc\u8d85|\u81f3\u5c11|\u6700\u591a|\u6570\u4ee5|\u5de6\u53f3|\u4e0d\u4f4e\u4e8e|\u4e0d\u8d85\u8fc7|more than|at least|up to|around|roughly)"
+    rf"\s*(?:[:\uff1a\(\uff08]?\s*){_SOURCE_QUALIFIER_VALUE}|"
     rf"{_SOURCE_QUALIFIER_VALUE}.{{0,12}}"
-    rf"(?:超过|远超|至少|最多|数以|左右|不低于|不超过|more than|at least|up to|around|roughly)"
+    rf"(?:\u8d85\u8fc7|\u8fdc\u8d85|\u81f3\u5c11|\u6700\u591a|\u6570\u4ee5|\u5de6\u53f3|\u4e0d\u4f4e\u4e8e|\u4e0d\u8d85\u8fc7|more than|at least|up to|around|roughly)"
     rf")",
     re.IGNORECASE,
 )
@@ -2653,11 +2672,11 @@ _SOURCE_QUALIFIER_SCOPED_RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
 # Native Image receives the visual blueprint as its business prompt.  These terms
 # identify the narrowly scoped case where a historical fact was expanded into a
 # direct-harm composition rather than an archival or symbolic presentation.
-_NON_GRAPHIC_HISTORICAL_VISUALIZATION_TERMS = re.compile(
+_NON_GRAPHIC_HISTORICAL_VISUALIZATION_TERMS = _cjk_re(
     r"(?:"
-    r"武斗|批斗|屠杀|镇压|迫害|枪击|枪杀|开枪|中弹|射杀|枪火|枪口火线|"
-    r"靶射|靶子|被悬挂为靶|活活打死|十五岁(?:女孩|少女)|"
-    r"尸体|遗体|肢解|斩首|刺穿|穿刺|钉在|未成年|少年|儿童|十五岁|15\s*岁|自伤|自残|"
+    r"\u6b66\u6597|\u6279\u6597|\u5c60\u6740|\u9547\u538b|\u8feb\u5bb3|\u67aa\u51fb|\u67aa\u6740|\u5f00\u67aa|\u4e2d\u5f39|\u5c04\u6740|\u67aa\u706b|\u67aa\u53e3\u706b\u7ebf|"
+    r"\u9776\u5c04|\u9776\u5b50|\u88ab\u60ac\u6302\u4e3a\u9776|\u6d3b\u6d3b\u6253\u6b7b|\u5341\u4e94\u5c81(?:\u5973\u5b69|\u5c11\u5973)|"
+    r"\u5c38\u4f53|\u9057\u4f53|\u80a2\u89e3|\u65a9\u9996|\u523a\u7a7f|\u7a7f\u523a|\u9489\u5728|\u672a\u6210\u5e74|\u5c11\u5e74|\u513f\u7ae5|\u5341\u4e94\u5c81|15\s*\u5c81|\u81ea\u4f24|\u81ea\u6b8b|"
     r"\b(?:historical\s+violence|violent\s+history|gunfire|"
     r"shooting\s+(?:impact|(?:at\s+)?(?:a\s+)?(?:person|people|victim|child|body|target))|being\s+shot|"
     r"impal(?:e|ement)|corpse|dismember(?:ment|ed)?|behead(?:ing|ed)?|gore|"
@@ -2667,11 +2686,11 @@ _NON_GRAPHIC_HISTORICAL_VISUALIZATION_TERMS = re.compile(
     re.IGNORECASE,
 )
 
-_DIRECT_HARM_VISUAL_COMPOSITION_TERMS = re.compile(
+_DIRECT_HARM_VISUAL_COMPOSITION_TERMS = _cjk_re(
     r"(?:"
-    r"枪击|枪杀|开枪|中弹|射杀|枪火|枪口火线|靶射|靶子|被悬挂为靶|活活打死|"
-    r"十五岁(?:女孩|少女)|从楼顶坠落|尸体|遗体|肢解|斩首|刺穿|穿刺|钉在|"
-    r"铁刺|铁制尖刺|尖刺|"
+    r"\u67aa\u51fb|\u67aa\u6740|\u5f00\u67aa|\u4e2d\u5f39|\u5c04\u6740|\u67aa\u706b|\u67aa\u53e3\u706b\u7ebf|\u9776\u5c04|\u9776\u5b50|\u88ab\u60ac\u6302\u4e3a\u9776|\u6d3b\u6d3b\u6253\u6b7b|"
+    r"\u5341\u4e94\u5c81(?:\u5973\u5b69|\u5c11\u5973)|\u4ece\u697c\u9876\u5760\u843d|\u5c38\u4f53|\u9057\u4f53|\u80a2\u89e3|\u65a9\u9996|\u523a\u7a7f|\u7a7f\u523a|\u9489\u5728|"
+    r"\u94c1\u523a|\u94c1\u5236\u5c16\u523a|\u5c16\u523a|"
     r"\b(?:gunfire|shooting\s+(?:impact|(?:at\s+)?(?:a\s+)?(?:person|people|victim|child|body|target))|being\s+shot|"
     r"impal(?:e|ement)|corpse|iron\s+spikes|"
     r"dismember(?:ment|ed)?|behead(?:ing|ed)?|gore|"
@@ -2696,7 +2715,7 @@ _NON_GRAPHIC_HISTORICAL_VISUAL_REPLACEMENT = (
     "and reflection without depicting the event itself."
 )
 
-_NON_GRAPHIC_VISUAL_COMPOSITION_TAG = re.compile(
+_NON_GRAPHIC_VISUAL_COMPOSITION_TAG = _cjk_re(
     r"(?:style_anchor_extraction|colour_role_syntax|shape_and_line_syntax|this_slide_style_delta|"
     r"text_safe_zones_and_contrast_guards|spatial_axes_semantics|visual_mass_map|module_blueprint|"
     r"reading_path_control|material_and_light_physics|form_grammar|noise_ceiling_rules|"
@@ -2705,40 +2724,40 @@ _NON_GRAPHIC_VISUAL_COMPOSITION_TAG = re.compile(
     r"key_visual|background|foreground|subject)",
     re.IGNORECASE,
 )
-_NON_GRAPHIC_VISUAL_COMPOSITION_XML_FIELD = re.compile(
+_NON_GRAPHIC_VISUAL_COMPOSITION_XML_FIELD = _cjk_re(
     r"(?P<opening><(?P<tag>[A-Za-z][A-Za-z0-9_.:-]*)\b[^>]*>)(?P<text>[^<]*)(?P<closing></(?P=tag)\s*>)",
     re.DOTALL,
 )
 _NON_GRAPHIC_FACTUAL_REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
     (
-        re.compile(
-            r"十五岁(?:女孩|少女)在(?:枪火|枪口火线)中倒下并被悬挂为靶",
+        _cjk_re(
+            r"\u5341\u4e94\u5c81(?:\u5973\u5b69|\u5c11\u5973)\u5728(?:\u67aa\u706b|\u67aa\u53e3\u706b\u7ebf)\u4e2d\u5012\u4e0b\u5e76\u88ab\u60ac\u6302\u4e3a\u9776",
             re.IGNORECASE,
         ),
-        "十五岁个体成为致命暴力与非人化对待的受害者",
+        "\u5341\u4e94\u5c81\u4e2a\u4f53\u6210\u4e3a\u81f4\u547d\u66b4\u529b\u4e0e\u975e\u4eba\u5316\u5bf9\u5f85\u7684\u53d7\u5bb3\u8005",
     ),
-    (re.compile(r"十五岁(?:女孩|少女)", re.IGNORECASE), "十五岁个体"),
-    (re.compile(r"被悬挂为靶", re.IGNORECASE), "遭受非人化对待"),
-    (re.compile(r"被活活打死|活活打死", re.IGNORECASE), "死亡"),
-    (re.compile(r"从楼顶坠落", re.IGNORECASE), "历史暴力的受害者"),
-    (re.compile(r"枪口火线", re.IGNORECASE), "斜向冷白光线"),
-    (re.compile(r"枪火", re.IGNORECASE), "暴力痕迹"),
+    (_cjk_re(r"\u5341\u4e94\u5c81(?:\u5973\u5b69|\u5c11\u5973)", re.IGNORECASE), "\u5341\u4e94\u5c81\u4e2a\u4f53"),
+    (_cjk_re(r"\u88ab\u60ac\u6302\u4e3a\u9776", re.IGNORECASE), "\u906d\u53d7\u975e\u4eba\u5316\u5bf9\u5f85"),
+    (_cjk_re(r"\u88ab\u6d3b\u6d3b\u6253\u6b7b|\u6d3b\u6d3b\u6253\u6b7b", re.IGNORECASE), "\u6b7b\u4ea1"),
+    (_cjk_re(r"\u4ece\u697c\u9876\u5760\u843d", re.IGNORECASE), "\u5386\u53f2\u66b4\u529b\u7684\u53d7\u5bb3\u8005"),
+    (_cjk_re(r"\u67aa\u53e3\u706b\u7ebf", re.IGNORECASE), "\u659c\u5411\u51b7\u767d\u5149\u7ebf"),
+    (_cjk_re(r"\u67aa\u706b", re.IGNORECASE), "\u66b4\u529b\u75d5\u8ff9"),
     (
-        re.compile(
+        _cjk_re(
             r"\bidentifiable\s+(?:fifteen[- ]year[- ]old|minor|child|teen(?:ager)?)\s+victim\b",
             re.IGNORECASE,
         ),
         "a fifteen-year-old student",
     ),
-    (re.compile(r"遭(?:枪击|枪杀|开枪|中弹|射杀)", re.IGNORECASE), "遭受致命暴力"),
-    (re.compile(r"枪击|枪杀|开枪|中弹|射杀", re.IGNORECASE), "遭受致命暴力"),
-    (re.compile(r"靶射|靶子", re.IGNORECASE), "非人化符号"),
-    (re.compile(r"尸体|遗体", re.IGNORECASE), "遇难者"),
-    (re.compile(r"肢解|斩首|刺穿|穿刺|钉在", re.IGNORECASE), "致命暴力"),
-    (re.compile(r"铁刺|铁制尖刺|尖刺", re.IGNORECASE), "金属边缘"),
-    (re.compile(r"\b(?:gunfire|shooting(?:\s+impact)?|\bshot\b|iron\s+spikes)\b", re.IGNORECASE), "armed violence"),
-    (re.compile(r"\b(?:impal(?:e|ement)|corpse|dismember(?:ment|ed)?|behead(?:ing|ed)?|gore)\b", re.IGNORECASE), "death and loss"),
-    (re.compile(r"\bbody\s+(?:displayed|hung|used)\s+(?:as\s+)?(?:a\s+)?target\b", re.IGNORECASE), "victims suffered loss of life"),
+    (_cjk_re(r"\u906d(?:\u67aa\u51fb|\u67aa\u6740|\u5f00\u67aa|\u4e2d\u5f39|\u5c04\u6740)", re.IGNORECASE), "\u906d\u53d7\u81f4\u547d\u66b4\u529b"),
+    (_cjk_re(r"\u67aa\u51fb|\u67aa\u6740|\u5f00\u67aa|\u4e2d\u5f39|\u5c04\u6740", re.IGNORECASE), "\u906d\u53d7\u81f4\u547d\u66b4\u529b"),
+    (_cjk_re(r"\u9776\u5c04|\u9776\u5b50", re.IGNORECASE), "\u975e\u4eba\u5316\u7b26\u53f7"),
+    (_cjk_re(r"\u5c38\u4f53|\u9057\u4f53", re.IGNORECASE), "\u9047\u96be\u8005"),
+    (_cjk_re(r"\u80a2\u89e3|\u65a9\u9996|\u523a\u7a7f|\u7a7f\u523a|\u9489\u5728", re.IGNORECASE), "\u81f4\u547d\u66b4\u529b"),
+    (_cjk_re(r"\u94c1\u523a|\u94c1\u5236\u5c16\u523a|\u5c16\u523a", re.IGNORECASE), "\u91d1\u5c5e\u8fb9\u7f18"),
+    (_cjk_re(r"\b(?:gunfire|shooting(?:\s+impact)?|\bshot\b|iron\s+spikes)\b", re.IGNORECASE), "armed violence"),
+    (_cjk_re(r"\b(?:impal(?:e|ement)|corpse|dismember(?:ment|ed)?|behead(?:ing|ed)?|gore)\b", re.IGNORECASE), "death and loss"),
+    (_cjk_re(r"\bbody\s+(?:displayed|hung|used)\s+(?:as\s+)?(?:a\s+)?target\b", re.IGNORECASE), "victims suffered loss of life"),
 )
 
 
@@ -2786,9 +2805,11 @@ def _source_qualifier_guard(slide_content: object) -> str:
     )
     return (
         "# Source Qualification Guard\n"
-        "以下来源行包含带限定条件的数值声明。必须保留每个数值的模拟、估算或不确定性含义，"
-        "并在同一数据项、表头、图例或脚注旁显示清晰限定；不得把限定数值改写成无条件的历史事实。\n"
-        "来源限定行（保留其含义）：\n"
+        "The following source lines contain qualified numerical claims. Preserve each "
+        "number's simulated, estimated, or uncertain meaning, and show a clear qualifier "
+        "beside the same data item, table header, legend, or footnote. Do not rewrite a "
+        "qualified number as an unconditional historical fact.\n"
+        "Source qualifier lines (keep their meaning):\n"
         f"{source_lines}"
     )
 

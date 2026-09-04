@@ -77,7 +77,7 @@ def build_confirmed_full_content(
         raise ValueError("confirmed_content_unavailable: slide positions are incomplete or duplicated")
 
     confirmed_content = "\n\n".join(
-        f"## 第 {position} 页：{title}\n\n{content}"
+        f"## Page {position}: {title}\n\n{content}"
         for position, title, content in sorted(normalized, key=lambda item: item[0])
     )
     if image_skill_snapshot is not None:

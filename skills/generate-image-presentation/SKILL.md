@@ -5,7 +5,7 @@ description: "Create a fixed Codex Native Image 3.0 presentation from pasted tex
 
 # Generate Image Presentation
 
-Use the `image-pptgen` CLI as the only interface to the Public Image PPT 3.0
+Use the `image-pptgen` CLI as the only interface to the Image PPTGen 3.0
 surface. The complete command, payload, exit-code, and response contract is in
 [the Image CLI contract](references/cli-contract.md). Do not import the
 Platform backend, database, pipeline, or Python modules directly.
@@ -17,7 +17,6 @@ Resolve `<skill_root>` as the absolute directory that contains this loaded
 Before the first CLI operation, verify that the matching dispatcher exists:
 
 - macOS or Linux: [`<skill_root>/scripts/image-pptgen-dispatch`](scripts/image-pptgen-dispatch)
-- Windows: [`<skill_root>\\scripts\\image-pptgen-dispatch.ps1`](scripts/image-pptgen-dispatch.ps1)
 
 Set the matching absolute dispatcher path once for this task. Keep that exact
 resolved command prefix for every later operation; copy it, do not rebuild it.
@@ -25,18 +24,16 @@ The POSIX script is always `<skill_root>/scripts/image-pptgen-dispatch`. Never
 omit the `scripts` directory or concatenate the skill directory name with the
 script basename. A missing dispatcher path is a stopped failure: do not invent
 a sibling path and retry. In every command below, `<dispatcher>` is a required
-platform-specific command template:
+command template:
 
 - macOS/Linux: `/bin/sh "<absolute-skill-root>/scripts/image-pptgen-dispatch" <arguments>`
-- Windows: `powershell -NoProfile -ExecutionPolicy Bypass -File
-  "<absolute-skill-root>\\scripts\\image-pptgen-dispatch.ps1" <arguments>`
 
-Replace only `<dispatcher>` with the template for the current platform; do not
-copy a macOS/Linux command into a Windows shell. Every CLI command below must
-go through that dispatcher. Do not invoke bare `image-pptgen`, use
-`command -v`/`where`, or modify `PATH`. The dispatcher resolves the supported
-per-user install roots and accepts `IMAGE_PPTGEN_CLI` only as an explicit
-absolute-path override for a custom install root.
+Replace only `<dispatcher>` with the template for the current platform. Supported
+runtimes are macOS ARM64 and Linux x86_64; do not treat Windows as a supported
+target. Every CLI command below must go through that dispatcher. Do not invoke bare `image-pptgen`, use
+`command -v`/`where`, or modify `PATH`. The dispatcher
+resolves the supported per-user install roots and accepts `IMAGE_PPTGEN_CLI`
+only as an explicit absolute-path override for a custom install root.
 
 On macOS Codex Desktop, the command-scoped runtime writes its lock, database,
 and generated artifacts under the exact per-user install root
@@ -52,9 +49,10 @@ denial: proceed to exactly one first dispatcher command and let the real
 sandbox/OS result decide. Never ask the user to supply install roots, Python
 paths, environment variables, or a replacement command as a workaround.
 
-This skill is for an image presentation made with Codex Native Image 3.0. It is
-not the HTML presentation workflow: if the user asks for HTML, use
-`$generate-presentation` instead. Never create HTML output from this skill as a
+This skill is for an image presentation made with Image PPTGen 3.0 / Codex
+Native Image 3.0. Historical Image 1.0, 3.2, and 5.0 routes are not supported
+alternatives. It is not the HTML presentation workflow: if the user asks for
+HTML, use `$generate-presentation` instead. Never create HTML output from this skill as a
 presentation artifact. The standalone local Preview described below is only a
 local viewer containing the completed PNG slides; it is not a generated HTML
 presentation artifact.
@@ -172,7 +170,7 @@ showing the proposal.
 When the user requests a change while that draft is pending, choose exactly one
 revision form:
 
-- If the request changes only the number of pages (for example, “改成 3 页” or
+- If the request changes only the number of pages (for example,
   “make it exactly 3 pages”) and contains no other edit, use the structured
   target-page fast path:
 
@@ -214,10 +212,10 @@ same draft is still pending:
    about whether to proceed require a concise follow-up question; run neither
    `split confirm` nor `generate`.
 3. An independent, unqualified affirmative is an explicit confirmation. Accept
-   the user's meaning in Chinese or English, including `确认`, `可以`, `继续`,
-   `好的`, `OK`, `OK, continue`, `yes`, and `go ahead`, along with ordinary
-   punctuation, case, or whitespace variations. Do not make the user repeat
-   one exact token.
+   the user's meaning in Chinese or English, including `\u786e\u8ba4`,
+   `\u53ef\u4ee5`, `\u7ee7\u7eed`, `\u597d\u7684`, `OK`, `OK, continue`,
+   `yes`, and `go ahead`, along with ordinary punctuation, case, or whitespace
+   variations. Do not make the user repeat one exact token.
 
 If none of these cases is clear, ask whether the displayed split is ready and
 wait. An ambiguous answer is not confirmation and must not trigger either
@@ -236,12 +234,13 @@ task; do not ask the user to repeat or supply those identities.
 
 An explicit affirmative that also clearly says to defer, hold, pause, or not
 start generation is a **confirm-only** handoff. This includes requests such as
-`确认这个方案，但先不要生成`, `请先完成确认，不要开始生成`, and `confirm it
-now; do not generate yet`. For a confirm-only handoff, execute the command
-above exactly once, report the retained confirmed deck and its final slide
-identity, then stop. In other words, confirm exactly once and stop. Do not
-generate, follow, or return a result in that turn: the Skill must not generate,
-follow, or return a result before the later generate-only decision.
+`confirm this plan, but do not generate yet`, `please confirm first and do not
+start generation`, and `confirm it now; do not generate yet`. For a
+confirm-only handoff, execute the command above exactly once, report the
+retained confirmed deck and its final slide identity, then stop. In other
+words, confirm exactly once and stop. Do not generate, follow, or return a
+result in that turn: the Skill must not generate, follow, or return a result
+before the later generate-only decision.
 
 A later generate-only user turn may resume only that retained confirmed deck.
 It must use the retained `deck_id` without re-submit, propose, revise, or
@@ -266,12 +265,11 @@ confirm-only handoff.
   Its first stdout line is the exact JSON response to one `generate` request.
   Its remaining stdout is the one `status --run-id <run_id> --follow --jsonl`
   continuation, owned by that same command. Do not issue a separate `generate`
-  or `status` command on macOS or Linux.
-- On Windows, run:
+  or `status` command on macOS or Linux. That means do not run
+  `<dispatcher> generate --deck-id <deck_id> --json` or
+  `<dispatcher> status --run-id <run_id> --follow --jsonl` as a substitute.
 
-  `<dispatcher> generate --deck-id <deck_id> --json`
-
-In either platform path, parse the generation response explicitly: verify that
+Parse the generation response explicitly: verify that
 `run_ids` is an array of exactly one item, verify that its first item is a
 positive integer, then bind `run_id = run_ids[0]`. For example, when the
 response contains `{"batch_id": 1, "run_ids": [1]}`, the only valid bound
@@ -293,9 +291,6 @@ another response field or substitute `undefined`, `null`, or an empty value.
   `generate-and-follow` continuation alive; it is executing exactly one
   `status --run-id <run_id> --follow --jsonl` internally. Do not start a
   separate `<dispatcher> status --run-id <run_id> --follow --jsonl` command.
-- On Windows, run exactly one:
-
-  `<dispatcher> status --run-id <run_id> --follow --jsonl`
 
 This is one long-running command, not a one-shot status check. If its tool
 response reports `running`, a `session_id`, or a `cell_id`, keep the same command continuation alive. Use the same `session_id` or `cell_id` associated

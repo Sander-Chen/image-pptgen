@@ -25,10 +25,12 @@ from pipeline import extract_fenced_block
 from splitter import split_by_explicit_h1, split_by_markdown
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-PROMPT_PATH = BASE_DIR / "example" / "自动切分.md"
+PROMPT_PATH = dbmod.IMAGE_PROMPT_SOURCE_FILES["image_faithful_split"]
 PROMPT_PATHS = {
     "faithful": PROMPT_PATH,
-    "editorial": BASE_DIR / "example" / "自动切分-编辑重构.md",
+    "editorial": BASE_DIR
+    / "example"
+    / ("\u81ea\u52a8\u5207\u5206-\u7f16\u8f91\u91cd\u6784.md"),
 }
 INTEGRITY_KEYWORDS = (
     "critical",
@@ -66,7 +68,7 @@ _PUBLIC_SPLIT_CHILD_TIMEOUT_SECONDS = 840
 _PUBLIC_SPLIT_ADMISSION_TIMEOUT_SECONDS = 30
 _PLAIN_TEXT_SOURCE_UNIT_TARGET_CHARS = 1200
 _PLAIN_TEXT_SOURCE_UNIT_MAX_CHARS = 1800
-_PLAIN_TEXT_SAFE_BOUNDARY_PUNCTUATION = frozenset("。！？!?；;")
+_PLAIN_TEXT_SAFE_BOUNDARY_PUNCTUATION = frozenset("\u3002\uff01\uff1f!?\uff1b;")
 
 # Public Image faithful split may classify one very specific class of failed
 # Codex calls as a transport-only failure.  The classifier is intentionally
@@ -398,7 +400,7 @@ def _plain_text_unit(unit_content: str, index: int) -> dict[str, str]:
     title = title_seed[:48].rstrip()
     if len(title_seed) > len(title):
         title += "…"
-    return {"title": title or f"内容 {index}", "content": unit_content}
+    return {"title": title or f"Content {index}", "content": unit_content}
 
 
 def _plain_text_atomic_units(source: str) -> list[dict[str, str]]:
@@ -564,7 +566,7 @@ def _target_page_count_slides(
                 unit["title"] for unit in page_units if unit["title"]
             ).strip()
             if not title:
-                title = f"第 {len(pages) + 1} 页"
+                title = f"Page {len(pages) + 1}"
         pages.append({"title": title, "content": content, "split_mode": "llm_auto"})
     return pages
 

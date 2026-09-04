@@ -1,0 +1,71 @@
+# **PPT Color Extractor**
+Language contract: Keep every user-visible title, heading, body, on-slide phrase, and quoted cover text in the same language as the source material and the user's request. Do not translate into English unless the user explicitly asks for English. If the source or request is Chinese, the presentation content must remain Chinese. Color names may stay English when they are palette role labels.
+You will receive: 1. *cover_image** – A slide cover image in any common bitmap format, linked as an attachment. Please analyze it. 2. *cover_prompt** – The text prompt that was used to create that image:
+"""
+
+"""
+**Your Task:**
+Analyze both the cover_image and cover_prompt to generate **one single XML document** defining a PowerPoint-style color theme, ensuring the color order matches PowerPoint's theme slots.
+
+**Analysis Guidance:**
+* **Prioritize colors visually dominant in the cover_image**.
+* Use the cover_prompt primarily as context or as a secondary source for color inspiration, especially if the image is ambiguous or lacks distinct accents.
+* If the prompt mentions specific colors that are *strongly* present in the image, consider reflecting those color names or hues in your output's name attributes.
+
+**XML Output Requirements:**
+
+Produce an XML document with the root element <pptPalette> containing *exactly* these two child elements in order: <textBackground> and <accents>.
+
+1. *<textBackground> element:**
+* Must contain **exactly 4** child <color> nodes **in a specific order** reflecting PowerPoint's theme slots:
+* The **first** <color> node **must** be a very **dark** color suitable for text on light backgrounds (low luminance, maps to PowerPoint's 'Text/Background - Dark 1').
+* The **second** <color> node **must** be a very **light** color suitable for primary light slide backgrounds (high luminance, maps to PowerPoint's 'Text/Background - Light 1').
+* The **third** <color> node **must** be a **dark** color, potentially suitable for dark slide backgrounds or secondary dark text (low to mid-low luminance, maps to PowerPoint's 'Text/Background - Dark 2').
+* The **fourth** <color> node **must** be a **light** color, suitable for text on dark backgrounds or secondary light backgrounds (high to mid-high luminance, maps to PowerPoint's 'Text/Background - Light 2').
+
+2. *<accents> element:**
+* Must contain **exactly 6** child <color> nodes.
+* These should represent the most dominant or visually important accent hues found in the cover_image, **ordered from most dominant/relevant to least dominant/relevant**.
+* If the cover_image does not naturally provide 6 distinct and suitable accent colors, generate the remaining colors to be **harmonious** with the extracted colors and the <textBackground> palette. These supplemental colors should complement the overall theme, provide useful variations (e.g., lighter/darker shades of existing accents), and avoid clashes.
+
+3. **For *every* <color> node (within both <textBackground> and <accents>):**
+* Supply **exactly** these attributes:
+* name: A short, descriptive name. Aim for descriptive names where possible (e.g., 'Sunset Orange', 'Forest Green'). For <textBackground> nodes, **explicitly reflect their intended role and position mapping** (e.g., 'Dark Text 1', 'Light Background 1', 'Dark Background 2', 'Light Text 2'). For accents, consider names like 'Accent 1 (Primary)', 'Accent 2', ..., 'Accent 6 (Subtle/Harmonious)' reflecting the order.
+* hex: The six-digit sRGB hexadecimal value, prefixed with # (e.g., **#005FA3**).
+* rgb: Three comma-separated integers (0-255) representing the RGB values (e.g., **0,95,163**).
+* luminance: An integer representing perceived luminance from 0 (black) to 100 (white), calculated precisely (considering sRGB gamma correction).
+
+**Contrast Requirement:**
+* Ensure the contrast requirement is met between key pairs corresponding to standard PowerPoint usage:
+* The **primary** check is between the **second** <color> (intended as Light Background 1) and the **first** <color> (intended as Dark Text 1). Their contrast ratio **must be ≥ 7**.
+* **Additionally**, ensure sufficient contrast between the **fourth** <color> (intended as Light Text 2) and the **third** <color> (intended as Dark Background 2). A ratio of **≥ 4.5** is recommended for good usability (though ≥ 7 is ideal if achievable harmoniously).
+* The contrast is calculated as: (Lighter Color Luminance + 0.05) / (Darker Color Luminance + 0.05).
+* *Example: If Light Lum = 90 (Node 2) and Dark Lum = 12 (Node 1) → (90 + 0.05) / (12 + 0.05) ≈ 7.4, which passes the primary check.*
+
+**Edge Case Handling:**
+* If the image lacks sufficient distinct colors or contrast to naturally meet *all* requirements (especially the fixed counts and specific order/roles for textBackground), make reasonable and **harmonious** choices. This might involve generating variations (lighter/darker shades, tints) of dominant hues to fulfill the specifications, structure, and contrast rules, while maintaining visual coherence. Prioritize extracting actual image colors first, then generate harmonious supplemental colors.
+
+**Strict Output Format:**
+
+Your response must be **only** the complete XML document. Ensure all tags are correctly closed and nested exactly as shown in the structural example below. Do not include any introductory text, explanations, metadata, or commentary outside the XML structure itself.
+
+**XML Output Template (Structural Example with Role Comments):**
+
+```xml
+<pptPalette>
+<textBackground>
+<color name="Dark Text 1" hex="#1A1A1A" rgb="26,26,26" luminance="1"/> <!-- Maps to PPT: Text/Background - Dark 1 -->
+<color name="Light Background 1" hex="#F7EFE2" rgb="247,239,226" luminance="87"/> <!-- Maps to PPT: Text/Background - Light 1 -->
+<color name="Dark Background 2" hex="#114455" rgb="17,68,85" luminance="5"/> <!-- Maps to PPT: Text/Background - Dark 2 -->
+<color name="Light Text 2 / Background" hex="#E0D5C8" rgb="224,213,200" luminance="69"/> <!-- Maps to PPT: Text/Background - Light 2 -->
+</textBackground>
+<accents>
+<color name="Accent 1 (Rich Red)" hex="#C5271C" rgb="197,39,28" luminance="13"/> <!-- Maps to PPT: Accent 1 -->
+<color name="Accent 2 (Golden Yellow)" hex="#D4B258" rgb="212,178,88" luminance="48"/> <!-- Maps to PPT: Accent 2 -->
+<color name="Accent 3 (Teal Blue)" hex="#21667B" rgb="33,102,123" luminance="11"/> <!-- Maps to PPT: Accent 3 -->
+<color name="Accent 4 (Cherry Pink)" hex="#E89999" rgb="232,153,153" luminance="42"/> <!-- Maps to PPT: Accent 4 -->
+<color name="Accent 5 (Maple Orange)" hex="#E67E39" rgb="230,126,57" luminance="32"/> <!-- Maps to PPT: Accent 5 -->
+<color name="Accent 6 (Brown Wood)" hex="#6B4E3E" rgb="107,78,62" luminance="9"/> <!-- Maps to PPT: Accent 6 -->
+</accents>
+</pptPalette>
+```

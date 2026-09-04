@@ -311,10 +311,11 @@ def build_resume_command(
         f"--run-id {config.run_id} --json"
     )
     prompt = (
-        f"继续当前已经存在的 PPTGen Run {config.run_id}，不要创建新的 Deck 或 Run，"
-        f"不得调用 generate。请只运行以下续读命令并保持到真实终态：{follow_command}。"
-        f"终态后只运行以下结果命令：{result_command}，"
-        "再按原 generate-presentation 工作流展示同一个 Run 的 Presentation Preview。"
+        f"Continue the existing PPTGen Run {config.run_id}. Do not create a new Deck or Run, "
+        f"and do not call generate. Run only this follow command and keep it running until a "
+        f"real terminal state: {follow_command}. After the terminal state, run only this result "
+        f"command: {result_command}, then present the Presentation Preview for the same Run "
+        "using the original generate-presentation workflow."
     )
     command = [
         "codex",

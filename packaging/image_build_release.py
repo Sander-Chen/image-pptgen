@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import hashlib
+import importlib.util
 import json
 import re
 import shutil
@@ -31,6 +32,39 @@ IMAGE_DATA_ROOT = "~/.local/share/image-pptgen"
 IMAGE_CONFIG_ROOT = "~/.config/image-pptgen"
 PLATFORM = "linux-x86_64"
 PAGES_FILE_LIMIT = 25 * 1024 * 1024
+_ALLOWLIST_PATH = Path(__file__).resolve().with_name("image_public_allowlist.py")
+_HAN_SCAN_PATH = Path(__file__).resolve().with_name("image_han_scan.py")
+
+
+def _load_public_allowlist():
+    spec = importlib.util.spec_from_file_location("image_pptgen_public_allowlist", _ALLOWLIST_PATH)
+    if spec is None or spec.loader is None:
+        raise FileNotFoundError(f"public allowlist is unavailable: {_ALLOWLIST_PATH}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _load_han_scan():
+    spec = importlib.util.spec_from_file_location("image_pptgen_linux_han_scan", _HAN_SCAN_PATH)
+    if spec is None or spec.loader is None:
+        raise FileNotFoundError(f"public Han scanner is unavailable: {_HAN_SCAN_PATH}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_PUBLIC_ALLOWLIST = _load_public_allowlist()
+_HAN_SCAN = _load_han_scan()
+
+
+def _reject_unapproved_han(path: Path, *, label: str, archive: bool = False) -> None:
+    scan = _HAN_SCAN.scan_archive if archive else _HAN_SCAN.scan_text_tree
+    findings = scan(path, exception_path=_HAN_SCAN.DEFAULT_EXCEPTIONS_PATH)
+    try:
+        _HAN_SCAN.assert_no_unapproved_han(findings, label=label)
+    except _HAN_SCAN.HanScanError as exc:
+        raise ValueError(str(exc)) from exc
 
 
 class BuildResult:
@@ -160,18 +194,53 @@ where = [\"src\"]
 """
 
 
+def _copy_frontend_dist(repo_root: Path, app_root: Path) -> None:
+    source = repo_root / "frontend" / "dist"
+    _assert_regular_source_tree(source)
+    target = app_root / "frontend" / "dist"
+    copied = False
+    for path in sorted(source.rglob("*")):
+        if not path.is_file() or "__pycache__" in path.parts:
+            continue
+        relative = path.relative_to(source).as_posix()
+        if not _PUBLIC_ALLOWLIST.frontend_dist_member_allowed(relative):
+            continue
+        _copy_file(path, target / path.relative_to(source))
+        copied = True
+    if not copied or not (target / "index.html").is_file():
+        raise FileNotFoundError(f"allowlisted frontend dist is missing index.html: {source}")
+    favicon = target / "favicon.svg"
+    public_favicon = repo_root / "frontend" / "public" / "favicon.svg"
+    if not favicon.is_file() and public_favicon.is_file() and not public_favicon.is_symlink():
+        _copy_file(public_favicon, favicon)
+
+
+def _copy_skill_tree(repo_root: Path, app_root: Path) -> None:
+    skill_source = repo_root / "skills" / IMAGE_SKILL
+    if skill_source.is_symlink() or not skill_source.is_dir():
+        raise FileNotFoundError(f"current Image Skill is unavailable: {skill_source}")
+    _assert_regular_source_tree(skill_source)
+    for path in sorted(skill_source.rglob("*")):
+        if (
+            not path.is_file()
+            or "__pycache__" in path.parts
+            or path.suffix.lower() == ".ps1"
+        ):
+            continue
+        _copy_file(path, app_root / "skills" / IMAGE_SKILL / path.relative_to(skill_source))
+
+
 def _populate_runtime(repo_root: Path, app_root: Path) -> None:
-    # The shared Flask core is needed by the public Image boundary, but no
-    # frontend source, HTML prompts, HTML Skill, or HTML wrapper is included.
-    for name in ("server.py", "public_server.py", "db.py", "pipeline.py", "config.py", "splitter.py"):
+    # Copy only the exact public runtime allowlist. Broad example/ and
+    # frontend/dist directory copies previously leaked historical prompts and
+    # evaluation-prototype assets.
+    for name in _PUBLIC_ALLOWLIST.APP_PYTHON_FILES:
         _copy_file(repo_root / name, app_root / name)
     _copy_python_tree(repo_root / "backend", app_root / "backend")
-    _copy_tree(repo_root / "frontend" / "dist", app_root / "frontend" / "dist")
+    _copy_frontend_dist(repo_root, app_root)
 
-    example_target = app_root / "example"
-    _copy_tree(repo_root / "example" / "image_ppt_input", example_target / "image_ppt_input")
-    for name in ("自动切分.md", "自动切分-编辑重构.md", "提取配图颜色.md"):
-        _copy_file(repo_root / "example" / name, example_target / name)
+    for relative in _PUBLIC_ALLOWLIST.required_prompt_relative_paths():
+        _copy_file(repo_root / relative, app_root / relative)
 
     toolkit = repo_root / "packages" / "pptgen_toolkit"
     package_target = app_root / "packages" / "pptgen_toolkit"
@@ -179,10 +248,7 @@ def _populate_runtime(repo_root: Path, app_root: Path) -> None:
     (package_target / "pyproject.toml").write_text(_image_pyproject(), encoding="utf-8")
     _copy_python_tree(toolkit / "src", package_target / "src")
 
-    skill_source = repo_root / "skills" / IMAGE_SKILL
-    if not skill_source.is_dir():
-        raise FileNotFoundError(f"current Image Skill is unavailable: {skill_source}")
-    _copy_tree(skill_source, app_root / "skills" / IMAGE_SKILL)
+    _copy_skill_tree(repo_root, app_root)
     _ensure_skill_dispatcher_executable(app_root)
 
     image_packaging = repo_root / "packaging" / "image"
@@ -200,6 +266,11 @@ def _populate_runtime(repo_root: Path, app_root: Path) -> None:
         app_root / "image-pptgen-server-wrapper.sh",
     ):
         executable.chmod(0o755)
+    findings = _PUBLIC_ALLOWLIST.forbidden_public_paths(
+        path.relative_to(app_root).as_posix() for path in app_root.rglob("*") if path.is_file()
+    )
+    if findings:
+        raise ValueError("forbidden path in Image runtime bundle: " + ", ".join(findings))
 
 
 def _release_identity(repo_root: Path, app_root: Path, *, version: str) -> dict[str, object]:
@@ -358,9 +429,21 @@ def _assert_image_archive_members(archive: Path) -> None:
         "generate-presentation",
         "pptgen-wrapper.sh",
         "pptgen-server-wrapper.sh",
+        "image-pptgen-dispatch.ps1",
+        "install.ps1",
+        "windows_installer.py",
+        "ppt.db",
     }
     with tarfile.open(archive, "r:gz") as handle:
         names = [member.name for member in handle.getmembers()]
+    relative_names = []
+    for name in names:
+        parts = PurePosixPath(name).parts
+        if len(parts) >= 2 and parts[1] == "app":
+            relative_names.append(PurePosixPath(*parts[2:]).as_posix())
+        else:
+            relative_names.append(name)
+    allowlist_violations = _PUBLIC_ALLOWLIST.forbidden_public_paths(relative_names)
     violations = [
         name
         for name in names
@@ -376,8 +459,9 @@ def _assert_image_archive_members(archive: Path) -> None:
             )
         )
     ]
+    violations.extend(allowlist_violations)
     if violations:
-        raise ValueError("HTML presentation artifact in Image release: " + ", ".join(violations))
+        raise ValueError("forbidden artifact in Image release: " + ", ".join(violations))
 
 
 def build_release(
@@ -398,6 +482,10 @@ def build_release(
 
     archive_name = f"image-pptgen-{version}-linux-x86_64.tar.gz"
     archive_path = release_dir / archive_name
+    with tempfile.TemporaryDirectory(prefix="image-pptgen-han-snapshot-") as snapshot_tmp:
+        snapshot_root = Path(snapshot_tmp) / "public-source"
+        _PUBLIC_ALLOWLIST.copy_public_source_snapshot(repo_root, snapshot_root)
+        _reject_unapproved_han(snapshot_root, label="public source snapshot")
     with tempfile.TemporaryDirectory(prefix="image-pptgen-release-build-") as tmp:
         bundle = Path(tmp) / f"image-pptgen-{version}"
         _populate_runtime(repo_root, bundle / "app")
@@ -409,7 +497,9 @@ def build_release(
         runtime_findings = _scan_text_files(bundle)
         if runtime_findings:
             raise ValueError("secret-like value in Image runtime bundle: " + "; ".join(runtime_findings))
+        _reject_unapproved_han(bundle, label="Image runtime bundle")
         _create_archive(bundle, archive_path)
+    _reject_unapproved_han(archive_path, label="linux-x86_64 archive", archive=True)
     validate_archive(archive_path)
     _assert_image_archive_members(archive_path)
 
